@@ -1,7 +1,15 @@
 #!/usr/bin/perl -W
 
+use Getopt::Long qw(:config no_getopt_compat bundling);
 use File::Basename qw(dirname basename);
 chdir dirname($0);
+
+use constant {
+	PROGNAME => basename($0),
+	PROGVER  => '0.9',
+	PROGDATE => '2016-05',
+
+};
 
 my ($section, $prev_section);
 my ($is_synopsis, $in_list);
@@ -9,6 +17,48 @@ my ($progname, $mansection, $version, $verdate);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 
+my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
+my %paste_before_section = ( );
+
+#require 'dumpvar.pl';
+
+sub Syntax (;$) {
+	printf STDERR <<EOT, PROGNAME;
+syntax: %s [OPTIONS] < input.nroff > output.md
+Options:
+  -p, --paste-after SECTION FILENAME   Pastes the contents of FILENAME
+                                       after the input SECTION.
+  -P, --paste-before SECTION FILENAME  Pastes the contents of FILENAME
+                                       right before the input SECTION.
+  -h, --help     Show program help
+  -V, --version  Show program version
+
+EOT
+	exit ($_[0] // 0);
+}
+
+sub Version () {
+	printf <<EOT, PROGNAME, PROGVER, PROGDATE;
+%s v%s
+Written by Maximilian Eul <maximilian\@eul.cc>, %s.
+
+EOT
+	exit;
+}
+
+GetOptions(
+	'p|paste-after=s@'	=> sub{ add_paste_file('after', split /:/, $_[1]) },
+	'P|paste-before=s@'	=> sub{ add_paste_file('before', split /:/, $_[1]) },
+	'h|help'		=> sub{ Syntax 0 },
+	'V|version'		=> sub{ Version },
+);
+
+sub add_paste_file ($$$) {
+	my ($op, $section, $filename) = @_;
+	die "file not readable: $filename"  unless (-f $filename && -r $filename);
+	my $addto = ($op eq 'after') ? \%paste_after_section : \%paste_before_section;
+	push @{ $addto->{$section} }, $filename;
+}
 
 sub output_filter {
 	my $pid = open(STDOUT, '|-');
@@ -167,7 +217,15 @@ nextline() if (section_title && $is_synopsis);
 
 do {
 	if (section_title) {
-		if ($prev_section eq 'DESCRIPTION') { paste_file('installation.md', "Installation") }
+		# new section begins
+		if (defined $paste_after_section{$prev_section}) {
+			paste_file($_)  foreach (@{ $paste_after_section{$prev_section} });
+			undef $paste_after_section{$section};
+		}
+		if (defined $paste_before_section{$section}) {
+			paste_file($_)  foreach (@{ $paste_before_section{$section} });
+			undef $paste_before_section{$section};
+		}
 		print_section_title ucfirst(lc $section)
 	} elsif (m/^\.nf/) {
 		# raw block
@@ -177,4 +235,9 @@ do {
 		print
 	}
 } while (nextline(1));
+
+foreach (values %paste_before_section)
+	{ paste_file($_)  foreach (@$_) }
+foreach (values %paste_after_section)
+	{ paste_file($_)  foreach (@$_) }
 
