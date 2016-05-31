@@ -1,8 +1,7 @@
 #!/usr/bin/perl -W
 
-use File::Basename 'dirname';
-use Cwd 'abs_path';
-chdir dirname(abs_path($0));
+use File::Basename qw(dirname basename);
+chdir dirname($0);
 
 my ($section, $prev_section);
 my ($is_synopsis, $in_list);
