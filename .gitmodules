@@ -1,0 +1,3 @@
+[submodule "test/framework"]
+	path = test/framework
+	url = https://github.com/mle86/sh-tests

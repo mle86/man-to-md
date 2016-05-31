@@ -12,8 +12,10 @@ my $section_prefix  = '# ';
 
 
 sub output_filter {
-	return if $pid = open(STDOUT, '|-');
-	die "cannot fork: $!" unless defined $pid;
+	my $pid = open(STDOUT, '|-');
+	return  if $pid > 0;
+	die "cannot fork: $!"  unless defined $pid;
+
 	local $/;
 	local $_ = <STDIN>;
 
@@ -25,13 +27,12 @@ sub output_filter {
 	s/^(.+)(?:$)\n^(?:[<\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[>\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
 	print;
-
 	exit;
 }
 output_filter();
 
 sub nextline {
-	my $keep_blanklines = $_[0] || 0;
+	my $keep_blanklines = $_[0] // 0;
 	do { $_ = <> } while (defined($_) && !$keep_blanklines && m/^\s*$/);
 	defined $_
 }
