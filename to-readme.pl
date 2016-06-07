@@ -65,7 +65,7 @@ sub add_paste_file ($$$) {
 	push @{ $addto->{$section} }, $filename;
 }
 
-sub output_filter {
+sub {
 	my $pid = open(STDOUT, '|-');
 	return  if $pid > 0;
 	die "cannot fork: $!"  unless defined $pid;
@@ -82,8 +82,7 @@ sub output_filter {
 
 	print;
 	exit;
-}
-output_filter();
+}->();
 
 sub nextline {
 	my $keep_blanklines = $_[0] // 0;
@@ -202,7 +201,7 @@ nextline()
 	and (($progname, $version) = ($1, $2))
 	or die "could not parse first line";
 
-# skip NAME headline, extract description 
+# skip NAME headline, extract description
 if (nextline() && section_title() && $section eq 'NAME') {
 	if (nextline() && m/ \\?- +(.+)$/) {
 		$description = $1;
