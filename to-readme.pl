@@ -94,7 +94,26 @@ sub nextline {
 
 sub line_empty { m/^\s*$/ }
 
-sub strip_highlighting { s/(?:^\.[BIR]{1,2} |\\f[BIR])//g }
+sub strip_highlighting {
+	# remove remaining highlighting:
+	s/(?:^\.[BIR]{1,2} |\\f[BIR])//g;
+
+	# paragraphs:
+	if (m/^\.br/i) {
+		$_ = ($in_list) ? "" : "\n";
+		return
+	} elsif (m/^\.(LP|P|PP)\b/) {
+		$_ = "\n";  # one blank line
+		$in_list = 0;
+	}
+
+	# known special characters:
+	s/\\\([lr]q/"/g;
+
+	# other special characters, except "\\":
+	s/\\([\- ])/$1/g;
+#	s/\\(.)/$1/g;
+}
 
 sub section_title {
 	# If the current line contains a section title,
@@ -155,10 +174,9 @@ sub reformat_syntax {
 	s/\\fB(.+?)\\fR/**$1**/g; s/^\.B +(.+)/**$1**/g;
 	s/\\fI(.+?)\\fR/*$1*/g;   s/^\.I +(.+)/*$1*/g;
 	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3)/ge;
-	strip_highlighting();
 
-	# other special characters:
-	s/\\(.)/$1/g;
+	# other formatting:
+	strip_highlighting();
 
 	if ($section eq 'AUTHOR') {
 		# convert e-mail address to link:
