@@ -13,7 +13,7 @@ use constant {
 };
 
 my ($section, $subsection, $prev_section);
-my ($is_synopsis, $in_list, $in_rawblock);
+my ($is_synopsis, $in_list, $start_list_item, $is_deflist, $in_rawblock);
 my ($progname, $mansection, $version, $verdate);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -167,15 +167,33 @@ sub reformat_syntax {
 
 	# lists and definition lists:
 	if (m/^\.IP/ || m/^\.TP/) {
-		$_ = "* ";  # no trailing break here
-		if (!$in_list) { $_ = "\n$_" }
-		$in_list = 2;
-	} elsif (m/^\.LP/) {
-		$_ = "\n";  # one blank line
-		$in_list = 0;
+		$is_deflist = m/^\.TP/ && $section ne 'EXIT CODES';
+		my $indent = ($in_list > 1)
+			? '    ' x ($in_list - 1)
+			: '';
+		$_ = $indent . '* ';  # no trailing break here
+		if (!$in_list) {
+			$_ = "\n$_";
+			$in_list = 1;
+		}
+		$start_list_item = 1;
+	} elsif ($in_list && m/^\.RS/) {
+		$in_list++;
+		$_ = ''
+	} elsif ($in_list && m/^\.RE/) {
+		$in_list--;
+		$_ = ''
 	} elsif ($in_list) {
-		s/^/  / if $in_list == 1;
-		$in_list = 1;
+		if ($start_list_item) {
+			$start_list_item = 0;
+
+			# In definition list (probably some CLI options).
+			# Add extra line break after option name:
+			s/$/  /  if $is_deflist;
+		} else {
+			my $indent = ' ' x (2 + (4 * ($in_list - 1)));
+			s/^/$indent/;
+		}
 	}
 }
 
