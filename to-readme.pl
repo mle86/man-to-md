@@ -13,7 +13,7 @@ use constant {
 };
 
 my ($section, $subsection, $prev_section);
-my ($is_synopsis, $in_list);
+my ($is_synopsis, $in_list, $in_rawblock);
 my ($progname, $mansection, $version, $verdate);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -120,11 +120,29 @@ sub subsection_title {
 }
 
 sub reformat_syntax {
-	if (m/^\.br/) {
-		$_ = ($in_list) ? "" : "\n";
+	# commands to be ignored:
+	if (m/\.PD/) {
+		$_ = '';
 		return
 	}
 
+	# raw block markers:
+	if (m/^\.(?:nf|co|cm)/) {
+		$in_rawblock = 1;
+		if (m/^\.cm(?:\s+($re_token))?/) {
+			chomp;
+			$_ = qtok($1);
+			strip_highlighting();
+			$_ = "\n**\`$_\`**\n\n"
+		} elsif (m/^\.co/) {
+			$_ = "\n"
+		} else {
+			$_ = ''
+		}
+		return
+	}
+
+	# command invocation in Synopsis section: 
 	if ($is_synopsis && !line_empty()) {
 		# only code here
 		chomp;
@@ -234,7 +252,16 @@ print "Version $version, $verdate\n\n" if ($version && $verdate);
 nextline() if (section_title && $is_synopsis);
 
 do {
-	if (section_title) {
+	if ($in_rawblock) {
+		if (m/^\.(?:fi|cx)/) {
+			$in_rawblock = 0;
+			print "\n"  if m/^\.cx/;
+		} else {
+			strip_highlighting;
+			s/\\(.)/$1/g;  # in md raw blocks, backslashes are not special!
+			print "    $_"
+		}
+	} elsif (section_title) {
 		# new section begins
 		if (defined $paste_after_section{$prev_section}) {
 			paste_file($_)  foreach (@{ $paste_after_section{$prev_section} });
@@ -245,9 +272,6 @@ do {
 			undef $paste_before_section{$section};
 		}
 		print_section_title ucfirst(lc $section)
-	} elsif (m/^\.nf/) {
-		# raw block
-		while (nextline(1) && !m/^\.fi/) { strip_highlighting; print "    $_" }
 	} elsif (subsection_title) {
 		# new subsection begins
 		print_subsection_title $subsection
