@@ -238,7 +238,7 @@ do {
 		# new section begins
 		if (defined $paste_after_section{$prev_section}) {
 			paste_file($_)  foreach (@{ $paste_after_section{$prev_section} });
-			undef $paste_after_section{$section};
+			undef $paste_after_section{$prev_section};
 		}
 		if (defined $paste_before_section{$section}) {
 			paste_file($_)  foreach (@{ $paste_before_section{$section} });
