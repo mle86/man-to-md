@@ -155,19 +155,22 @@ sub qtok ($) { ($_[0] =~ m/^"(.+)"$/) ? $1 : $_[0] }
 sub print_section_title ($) { print "\n$section_prefix$_[0]\n\n" }
 
 sub paste_file {
-	my ($filename, $section_title) = @_;
+	my $filename = shift;
 	return 0 unless -r $filename;
+
+	if ($filename =~ m/^(.+)\.md$/) {
+		my $section_title = $1;
+		print_section_title $section_title;
+	}
 
 	open FH, "< $filename";
 	local $/;
 	my $content = <FH>;
 	close FH;
 
-	print_section_title $section_title;
 	$content =~ s/\s+$//;
 	print "$content\n";
 
-	$prev_section = uc $section_title;
 	1
 }
 
