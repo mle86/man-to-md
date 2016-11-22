@@ -28,9 +28,9 @@ sub Syntax (;$) {
 	printf STDERR <<EOT, PROGNAME;
 syntax: %s [OPTIONS] < input.nroff > output.md
 Options:
-  -p, --paste-after SECTION FILENAME   Pastes the contents of FILENAME
+  -p, --paste-after SECTION:FILENAME   Pastes the contents of FILENAME
                                        after the input SECTION.
-  -P, --paste-before SECTION FILENAME  Pastes the contents of FILENAME
+  -P, --paste-before SECTION:FILENAME  Pastes the contents of FILENAME
                                        right before the input SECTION.
   -c, --comment [COMMENT]   Adds an invisible comment as first line.
                             Uses a default comment without its argument.
