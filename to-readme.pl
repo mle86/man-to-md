@@ -293,6 +293,9 @@ do {
 	} elsif (subsection_title) {
 		# new subsection begins
 		print_subsection_title $subsection
+	} elsif (m/^\.de\b/) {
+		# macro definition -- skip completely
+		1 while (nextline(1) && ! m/^\.\./);
 	} else {
 		reformat_syntax;
 		print
