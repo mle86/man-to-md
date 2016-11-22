@@ -77,8 +77,8 @@ sub {
 	s/```\n```/ /g;
 
 	# URLs:
-	my $re_urlprefix = '(?:https?|s?ftp:|www)';
-	s/^(.+)(?:$)\n^(?:[<\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[>\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
+	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
+	s/^(.+[^)>])(?:$)\n^(?:[<\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[>\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
 	print;
 	exit;
