@@ -24,6 +24,13 @@ my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
 my %paste_before_section = ( );
 my $add_comment;
 
+my %words = ( );
+my %stopwords = map { $_ => 1 } (qw(
+	a an the
+	as at and but by for from nor or so yet while if on of off to it its it's
+	on in onto into with within unless while after before once since until when since
+));
+
 #require 'dumpvar.pl';
 
 sub Syntax (;$) {
@@ -36,6 +43,8 @@ Options:
                                        right before the input SECTION.
   -c, --comment [COMMENT]   Adds an invisible comment as first line.
                             Uses a default comment without its argument.
+  -w, --word WORD  Adds a word to the list of words
+                   not to be titlecased in chapter titles.
   -h, --help     Show program help
   -V, --version  Show program version
 
@@ -56,6 +65,7 @@ GetOptions(
 	'p|paste-after=s@'	=> sub{ add_paste_file('after', split /:/, $_[1]) },
 	'P|paste-before=s@'	=> sub{ add_paste_file('before', split /:/, $_[1]) },
 	'c|comment:s'		=> sub{ $add_comment = (length $_[1])  ? $_[1] : DEFAULT_COMMENT },
+	'w|word=s'		=> sub{ $words{ lc $_[1] } = $_[1] },
 	'h|help'		=> sub{ Syntax 0 },
 	'V|version'		=> sub{ Version },
 );
@@ -259,6 +269,20 @@ sub alternating_highlighting {
 	} @tokens
 }
 
+sub titlecase {
+	local $_ = $_[0];
+	my $re_word = '(\pL[\pL\']*)';
+
+	# lowercase stop words, keep case of known words, else titlecase
+	s!$re_word!$stopwords{lc $1} ? lc($1) : ($words{lc $1} // ucfirst(lc($1)))!ge;
+	# capitalize first word following colon or semicolon
+	s/ ( [:;] \s+ ) $re_word /$1\u$2/x;
+	# title first word (even a stopword), except if it's a known word
+	s!^\s*$re_word!$words{lc $1} // ucfirst(lc($1))!e;
+
+	$_
+}
+
 ##############################
 
 # eat first line, extract progname, version, and man section
@@ -307,7 +331,7 @@ do {
 			paste_file($_)  foreach (@{ $paste_before_section{$section} });
 			undef $paste_before_section{$section};
 		}
-		print_section_title ucfirst(lc $section)
+		print_section_title titlecase($section)
 	} elsif (subsection_title) {
 		# new subsection begins
 		print_subsection_title $subsection
