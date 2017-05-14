@@ -120,6 +120,7 @@ sub strip_highlighting {
 	# known special characters:
 	s/\\\(lq/“/g;
 	s/\\\(rq/”/g;
+	s/\\\(dq/"/g;
 
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
