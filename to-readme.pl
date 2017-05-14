@@ -118,7 +118,8 @@ sub strip_highlighting {
 	}
 
 	# known special characters:
-	s/\\\([lr]q/"/g;
+	s/\\\(lq/“/g;
+	s/\\\(rq/”/g;
 
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
