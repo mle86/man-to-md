@@ -22,6 +22,7 @@ my $re_token = '(?:"[^"]*"|[^"\s]+)(?=\s|$)';
 
 my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
 my %paste_before_section = ( );
+my $code_formatting = 0;
 my $add_comment;
 
 my %words = ( );
@@ -45,6 +46,7 @@ Options:
                             Uses a default comment without its argument.
   -w, --word WORD  Adds a word to the list of words
                    not to be titlecased in chapter titles.
+  -f, --formatted-code  Allow formatting in .nf--.fi code blocks
   -h, --help     Show program help
   -V, --version  Show program version
 
@@ -65,6 +67,7 @@ GetOptions(
 	'p|paste-after=s@'	=> sub{ add_paste_file('after', split /:/, $_[1]) },
 	'P|paste-before=s@'	=> sub{ add_paste_file('before', split /:/, $_[1]) },
 	'c|comment:s'		=> sub{ $add_comment = (length $_[1])  ? $_[1] : DEFAULT_COMMENT },
+	'f|formatted-code'	=> sub{ $code_formatting = 1 },
 	'w|word=s'		=> sub{ $words{ lc $_[1] } = $_[1] },
 	'h|help'		=> sub{ Syntax 0 },
 	'V|version'		=> sub{ Version },
@@ -159,7 +162,7 @@ sub reformat_syntax {
 
 	# raw block markers:
 	if (m/^\.(?:nf|co|cm)/) {
-		$in_rawblock = 1;
+		$in_rawblock = 2;
 		if (m/^\.cm(?:\s+($re_token))?/) {
 			chomp;
 			$_ = qtok($1);
@@ -225,6 +228,11 @@ sub reformat_syntax {
 			s/^/$indent/;
 		}
 	}
+}
+
+sub reformat_html {
+	s#\\fB(.+?)\\fR#<b>$1</b>#g;
+	s#\\fI(.+?)\\fR#<i>$1</i>#g;
 }
 
 sub qtok ($) { ($_[0] =~ m/^"(.+)"$/) ? $1 : $_[0] }
@@ -319,7 +327,18 @@ do {
 		if (m/^\.(?:fi|cx)/) {
 			# code block ends
 			$in_rawblock = 0;
+			print "</code></pre>\n"  if $code_formatting;
 			print "\n"  if m/^\.cx/;
+		} elsif ($code_formatting) {
+			# inside code block with limited html formatting
+			if ($in_rawblock == 2) {
+				$in_rawblock = 1;
+				print "<pre><code>";
+			}
+			reformat_html;
+			strip_highlighting;
+			s/\\(.)/$1/g;  # in md <pre> blocks, backslashes are not special!
+			print
 		} else {
 			# inside code block without formatting
 			strip_highlighting;
