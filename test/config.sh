@@ -4,10 +4,10 @@ CONV="perl -W $HERE/../to-readme.pl"
 CONV_SAMPLE1="$CONV <$HERE/samples/sample1.roff"
 
 conv_sample1 () {
-	$CONV "$@" < $HERE/samples/sample1.roff
+	$CONV "$@" < "$HERE/samples/sample1.roff"
 }
 conv_sample1_headlines () {
-	$CONV "$@" < $HERE/samples/sample1.roff | grep '^#'
+	$CONV "$@" < "$HERE/samples/sample1.roff" | grep '^#'
 }
 
 
