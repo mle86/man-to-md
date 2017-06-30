@@ -3,6 +3,10 @@
 CONV="perl -W $HERE/../to-readme.pl"
 CONV_SAMPLE1="$CONV <$HERE/samples/sample1.roff"
 
+conv () {
+	local filename="$1" ; shift
+	$CONV "$@" < "$HERE/samples/$filename"
+}
 conv_sample1 () {
 	$CONV "$@" < "$HERE/samples/sample1.roff"
 }
@@ -18,4 +22,40 @@ TESTPROG_SECTION="7"
 TESTPROG_SHORTNAME="TESTPROG"
 TESTPROG_VERSION="0.9.2"
 TESTPROG_DATE="April 2017"
+
+# define [-t] varname < input
+#  Assigns its stdin input to a variable.
+#  Similar to the `read' builtin, but it does not care about newlines.
+#  This is useful to assign a heredoc to a variable.
+#  If trailing newlines should be preserved, use the -t option.
+#  Without that option, _all_ trailing newline characters will be removed,
+#  similar to $(...) assignments.
+#  Note that the -t option will still remove _one_ trailing newline character (if present).
+#  Returns true if stdin was readable, false otherwise (in this case, $varname is not changed).
+define () {
+	local preserve_newlines=
+	if [ "$1" = "-t" ]; then
+		preserve_newlines=yes
+		shift
+	fi
+	local varname="$1"
+	local br="
+"
+
+	if [ "$preserve_newlines" ]; then
+		output="$(cat 2>/dev/null ; echo -n "EOT")" || return
+		output="${output%"EOT"}"
+		output="${output%"$br"}"
+	else
+		output="$(cat 2>/dev/null)" || return
+	fi
+	eval "$varname=\"\$output\""
+}
+
+# get_section sectionname <input
+#  Extracts one "# SECTION" from the input,
+#  without the section title.
+get_section () {
+	grep -m1 -zoiP "(?s)(?<=\\n# $1\\n\\n).+?(?=\\n#|\Z)"
+}
 
