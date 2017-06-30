@@ -56,6 +56,7 @@ define () {
 #  Extracts one "# SECTION" from the input,
 #  without the section title.
 get_section () {
-	grep -m1 -zoiP "(?s)(?<=\\n# $1\\n\\n).+?(?=\\n#|\Z)"
+	grep -m1 -zoiP "(?s)(?<=\\n# $1\\n\\n).+?(?=\\n#|\Z)" \
+		|| fail "Section '$1' not found!"
 }
 
