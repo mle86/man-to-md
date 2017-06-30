@@ -86,7 +86,7 @@ sub {
 	local $_ = <STDIN>;
 
 	# merge code blocks:
-	s/```\n```/ /g;
+	s/\n```\n```\n/ /g;
 
 	# URLs:
 	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
