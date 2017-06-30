@@ -46,7 +46,7 @@ Options:
                             Uses a default comment without its argument.
   -w, --word WORD  Adds a word to the list of words
                    not to be titlecased in chapter titles.
-  -f, --formatted-code  Allow formatting in .nf--.fi code blocks
+  -f, --formatted-code  Allow formatting in nf/fi code blocks and Synopsis line
   -h, --help     Show program help
   -V, --version  Show program version
 
