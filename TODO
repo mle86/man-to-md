@@ -1,0 +1,7 @@
+- test .LP list-end
+- test .B, .I, .R, .BIR
+- test .SS subsections
+- test urls
+- test maillink in AUTHOR section
+- test protected space (\ )
+
