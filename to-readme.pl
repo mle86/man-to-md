@@ -173,12 +173,12 @@ sub reformat_syntax {
 		return
 	}
 
-	# command invocation in Synopsis section: 
+	# command invocation in Synopsis section:
 	if ($is_synopsis && !line_empty()) {
 		# only code here
 		chomp;
 		strip_highlighting();
-		$_ = "\`\`\`$_\`\`\`\n";
+		$_ = "\`\`\`\n$_\n\`\`\`\n";
 		return
 	}
 
