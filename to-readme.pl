@@ -313,16 +313,20 @@ print "Version $version, $verdate\n\n" if ($version && $verdate);
 # skip SYNOPSIS headline
 nextline() if (section_title && $is_synopsis);
 
+
 do {
 	if ($in_rawblock) {
 		if (m/^\.(?:fi|cx)/) {
+			# code block ends
 			$in_rawblock = 0;
 			print "\n"  if m/^\.cx/;
 		} else {
+			# inside code block without formatting
 			strip_highlighting;
 			s/\\(.)/$1/g;  # in md raw blocks, backslashes are not special!
 			print "    $_"
 		}
+
 	} elsif (section_title) {
 		# new section begins
 		if (defined $paste_after_section{$prev_section}) {
@@ -334,17 +338,22 @@ do {
 			undef $paste_before_section{$section};
 		}
 		print_section_title titlecase($section)
+
 	} elsif (subsection_title) {
 		# new subsection begins
 		print_subsection_title $subsection
+
 	} elsif (m/^\.de\b/) {
 		# macro definition -- skip completely
 		1 while (nextline(1) && ! m/^\.\./);
+
 	} else {
 		reformat_syntax;
 		print
 	}
+
 } while (nextline(1));
+
 
 foreach (values %paste_before_section)
 	{ paste_file($_)  foreach (@$_) }
