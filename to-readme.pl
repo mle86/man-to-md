@@ -89,7 +89,8 @@ sub {
 	local $_ = <STDIN>;
 
 	# merge code blocks:
-	s/\n```\n```\n/ /g;
+	s#(?:\n```\n```\n|</code></pre>\n<pre><code>|</code>\n<code>\n?)# #g;
+	s#(?:</code><code>|</pre><pre>)##g;
 
 	# URLs:
 	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
@@ -180,8 +181,16 @@ sub reformat_syntax {
 	if ($is_synopsis && !line_empty()) {
 		# only code here
 		chomp;
-		strip_highlighting();
-		$_ = "\`\`\`\n$_\n\`\`\`\n";
+		if ($code_formatting) {
+			# synopsis content with formatting
+			reformat_html();
+			strip_highlighting();
+			s/\\(.)/$1/g;  # in md <pre> blocks, backslashes are not special!
+			$_ = "<pre><code>$_</code></pre>\n"
+		} else {
+			strip_highlighting();
+			$_ = "\`\`\`\n$_\n\`\`\`\n";
+		}
 		return
 	}
 
