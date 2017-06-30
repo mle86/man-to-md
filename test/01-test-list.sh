@@ -29,7 +29,7 @@ match_suboption () {
 	regex="$regex"' {5,7}(?:\S.*?)?'"$description"'.*?\S\n'
 
 	if ! printf '%s' "$output" | grep -qzP "$regex"; then
-		err ".TP sub list got converted incorrectly! (Was checking \"$suboption\" suboption)"
+		err ".IP sub list got converted incorrectly! (Was checking \"$suboption\" suboption)"
 		err "  Regex:"
 		err "$regex"
 		err "  Output:"
