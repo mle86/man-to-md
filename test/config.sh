@@ -1,7 +1,6 @@
 #!/bin/sh
 
 CONV="perl -W $HERE/../man-to-md.pl"
-CONV_SAMPLE1="$CONV <$HERE/samples/sample1.roff"
 
 conv () {
 	local filename="$1" ; shift

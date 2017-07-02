@@ -32,8 +32,6 @@ my %stopwords = map { $_ => 1 } (qw(
 	on in onto into with within unless while after before once since until when since
 ));
 
-#require 'dumpvar.pl';
-
 sub Syntax (;$) {
 	printf STDERR <<EOT, PROGNAME;
 syntax: %s [OPTIONS] < input.nroff > output.md
