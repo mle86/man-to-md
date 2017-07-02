@@ -5,10 +5,12 @@
 
 * `.B`, `.I`, `.R`  
 	Sets the rest of the line in bold/italics/normal.
+	(Line will be tokenized.)
 
 * `.BI`, `.IB`, `.RB`, `.BR`, `.RI`, `.IR`  
 	Sets the rest of the line in bold/italics/normal,
-	alternating with each word.
+	alternating with each token/word.
+	(Line will be tokenized.)
 
 * `\fB`, `\fI`, `\fR`  
 	Changes output mode to bold/italics/normal.
@@ -20,8 +22,13 @@
 * `.SS`  
 	Subsection title.
 
-* `.IP`, `.TP  
-	Begin of a list or definition list.
+* `.IP`  
+	One list item.
+	Begin of a list.
+
+* `.TP`  
+	One definition list entry.
+	Begin of a list.
 
 * `.RS`  
 	Begin of a nested list.
@@ -31,11 +38,9 @@
 	End of a nested list.
 	Decreases list indentation level.
 
-* `.LP`  
-	End of a list.
-
-* `.P`/`.PP`  
+* `.LP`/`.P`/`.PP`  
 	One blank line.
+	Also end of a list.
 
 * `.nf`  
 	A block of unformatted text.
