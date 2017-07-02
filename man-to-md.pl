@@ -1,5 +1,21 @@
 #!/usr/bin/perl -W
 
+# This file is part of man-to-md.
+# 
+# man-to-md is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# man-to-md is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with man-to-md.  If not, see <http://www.gnu.org/licenses/>.
+
+
 use Getopt::Long qw(:config no_getopt_compat bundling);
 use File::Basename qw(dirname basename);
 chdir dirname($0);
@@ -56,6 +72,7 @@ sub Version () {
 	printf <<EOT, PROGNAME, PROGVER, PROGDATE;
 %s v%s
 Written by Maximilian Eul <maximilian\@eul.cc>, %s.
+License GPLv3+: GNU GPL Version 3 or later <http://gnu.org/licenses/gpl.html>
 
 EOT
 	exit;

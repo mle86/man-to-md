@@ -60,3 +60,8 @@
 * `\ `  
     Non-breaking space.
 
+
+# License
+
+[GNU GPL v3](http://gnu.org/licenses/gpl.html)
+
