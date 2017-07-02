@@ -147,6 +147,9 @@ sub strip_highlighting {
 	s/\\\(en/–/g;
 	s/\\\(em/—/g;
 
+	s/\\ /&nbsp;/g;  # non-breakable space
+#	s/\\-/&#8209;/g;  # non-breakable hyphen
+
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
 #	s/\\(.)/$1/g;

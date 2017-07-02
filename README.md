@@ -54,3 +54,6 @@
 * `\"`, `.\"`  
     Line comment (ignored).
 
+* `\ `  
+    Non-breaking space.
+

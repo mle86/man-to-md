@@ -13,5 +13,8 @@ assertContains "$output" "lq<“>"  "$errmsg"
 assertContains "$output" "rq<”>"  "$errmsg"
 assertContains "$output" "dq<\">" "$errmsg"
 
+assertRegex "$output" "/nbsp(?: |&nbsp;)eol/" \
+	'Conversion of "\ " to NBSP failed!'
+
 
 success
