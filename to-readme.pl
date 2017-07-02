@@ -109,8 +109,12 @@ sub {
 #  This function also removes all line comments (\").
 sub nextline {
 	my $keep_blanklines = $_[0] // 0;
-	do { $_ = <> } while (defined($_) && (s/(?:^\.)?\\".*$//, !$keep_blanklines && m/^\s*$/));
-	defined $_
+	do {
+		$_ = <>;
+		return 0 unless defined;
+		s/(?:^\.)?\\".*$//;  # remove line comments
+	} while (line_empty() && !$keep_blanklines);
+	1
 }
 
 sub line_empty { m/^\s*$/ }
