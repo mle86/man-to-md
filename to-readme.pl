@@ -295,8 +295,7 @@ sub alternating_highlighting {
 	# Therefore we have to join('') the tokens here:
 
 	return join '', map {
-		my $highlightkey = $hl[$h];
-		$h++, $h %= 2;
+		my $highlightkey = $hl[$h++ % 2];
 
 		if ($highlightkey eq 'R') {
 			$_
