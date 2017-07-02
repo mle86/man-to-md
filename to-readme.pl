@@ -109,11 +109,19 @@ sub {
 #  This function also removes all line comments (\").
 sub nextline {
 	my $keep_blanklines = $_[0] // 0;
-	do {
+	my $in_comment;
+	do {{
 		$_ = <>;
 		return 0 unless defined;
 		s/(?:^\.)?\\".*$//;  # remove line comments
-	} while (line_empty() && !$keep_blanklines);
+
+		if (m/^\.ig/ || $in_comment) {
+			# block comment
+			$in_comment = ! m/^\.\./;
+			redo;
+		}
+
+	}} while (line_empty() && !$keep_blanklines);
 	1
 }
 

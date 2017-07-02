@@ -48,11 +48,14 @@
 * `.fi`  
 	End of an unformatted block.
 
-* `.de`  
+* `.de`–`..`  
 	Macro definition (ignored).
 
 * `\"`, `.\"`  
     Line comment (ignored).
+
+* `.ig`–`..`  
+    Block comment (ignored).
 
 * `\ `  
     Non-breaking space.

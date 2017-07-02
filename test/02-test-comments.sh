@@ -14,5 +14,11 @@ assertContains "$output" 'contains a line comment' \
 assertRegex "$output" '!/SENTINEL2/i' \
 	'Line comment command (.\") was not ignored!'
 
+assertRegex "$output" '!/SENTINEL3/i' \
+	'Block comment (.ig-..) was not ignored!'
+
+assertContains "$output" 'a block comment' \
+	'Block comment (.ig-..) removed its surrounding paragraph!'
+
 
 success
