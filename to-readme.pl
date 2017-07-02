@@ -18,7 +18,7 @@ my ($progname, $mansection, $version, $verdate);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 my $subsection_prefix  = '## ';
-my $re_token = '(?:"[^"]*"|[^"\s]+)(?=\s|$)';
+my $re_token = '(?:"(?:\\.|[^"])*+"|(?:\\\\.|[^\s"])(?:\\\\.|\S)*+)';  # matches one token, with or without "enclosure".
 
 my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
 my %paste_before_section = ( );
@@ -195,8 +195,15 @@ sub reformat_syntax {
 	}
 
 	# bold and italics:
-	s/\\fB(.+?)\\fR/**$1**/g; s/^\.B +(.+)/**$1**/g;
-	s/\\fI(.+?)\\fR/*$1*/g;   s/^\.I +(.+)/*$1*/g;
+	s/\\fB(.+?)\\fR/**$1**/g;
+	s/\\fI(.+?)\\fR/*$1*/g;
+
+	# groff concatenates tokens in .B and .I lines with spaces.
+	# We still have to tokenize and re-join the line
+	# to get rid of the token doublequote enclosures.
+	s/^\.B +(.+)/'**' . join(' ', tokenize($1)) . '**'/ge;
+	s/^\.I +(.+)/'*' . join(' ', tokenize($1)) . '*'/ge;
+
 	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3)/ge;
 
 	# other formatting:
@@ -244,7 +251,16 @@ sub reformat_html {
 	s#\\fI(.+?)\\fR#<i>$1</i>#g;
 }
 
-sub qtok ($) { ($_[0] =~ m/^"(.+)"$/) ? $1 : $_[0] }
+# Strips doublequote enclosure from string tokens, is present.
+sub qtok {
+	my @result = map{ m/^"(.+)"$/ ? $1 : $_ } @_;
+	wantarray ? @result : $result[0]
+}
+
+# Extracts all tokens from the input string and returns them in a list.
+# Tokens are things enclosed in unescaped doublequotes or any strings without spaces.
+sub tokenize { qtok($_[0] =~ m/$re_token/g) }
+
 
 sub print_section_title    ($) { print "\n$section_prefix$_[0]\n\n" }
 sub print_subsection_title ($) { print "\n$subsection_prefix$_[0]\n\n" }
@@ -271,8 +287,12 @@ sub paste_file {
 
 sub alternating_highlighting {
 	my @hl = @_[0, 1];
-	my @tokens = split /\s+/, $_[2];
+	my @tokens = tokenize($_[2]);
 	my $h = 0;
+
+	# groff concatenates tokens in .B and .I lines with spaces,
+	# but tokens in .[BIR][BIR] lines are concatenated WITHOUT spaces.
+	# Therefore we have to join('') the tokens here:
 
 	return join '', map {
 		my $highlightkey = $hl[$h];
@@ -307,7 +327,7 @@ sub titlecase {
 # eat first line, extract progname, version, and man section
 nextline()
 	and m/^\.TH $re_token ($re_token) ($re_token) ($re_token)/
-	and (($mansection, $verdate) = (qtok $1, qtok $2))
+	and (($mansection, $verdate) = (qtok($1), qtok($2)))
 	and qtok($3) =~ m/^(\w[\w\-_\.]*) v? ?(\d[\w\.\-\+]*)$/
 	and (($progname, $version) = ($1, $2))
 	or die "could not parse first line";
