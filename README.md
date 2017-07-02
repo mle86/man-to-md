@@ -51,3 +51,6 @@
 * `.de`  
 	Macro definition (ignored).
 
+* `\"`, `.\"`  
+    Line comment (ignored).
+

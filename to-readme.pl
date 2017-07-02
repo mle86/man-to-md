@@ -100,9 +100,16 @@ sub {
 	exit;
 }->();
 
+# nextline(keep_blanklines?=false)
+#  Fetch next input line into $_.
+#  Returns true if there was an input line, false if EOF.
+#  If the first argument (keep_blankline?) is true,
+#  blank lines will be returned;
+#  by default, blank lines will be skipped.
+#  This function also removes all line comments (\").
 sub nextline {
 	my $keep_blanklines = $_[0] // 0;
-	do { $_ = <> } while (defined($_) && !$keep_blanklines && m/^\s*$/);
+	do { $_ = <> } while (defined($_) && (s/(?:^\.)?\\".*$//, !$keep_blanklines && m/^\s*$/));
 	defined $_
 }
 
