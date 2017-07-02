@@ -1,4 +1,3 @@
-- test .LP list-end
 - test .B, .I, .R, .BIR
 - test .SS subsections
 - test urls

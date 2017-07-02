@@ -59,5 +59,10 @@ match_suboption "$output" "M0" "Level zero"
 match_suboption "$output" "M1" "Level one"
 match_suboption "$output" "M2" "Level two"
 
+# After a paragraph (.P/.LP/.PP), the list ends.
+# This means the following text should have regular indentation
+# and a leading blank line.
+test_pcre "$output" "\n\n {0,2}(?:\w[\w ]*)?section end"
+
 
 success
