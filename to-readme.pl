@@ -135,7 +135,17 @@ sub strip_highlighting {
 	# known special characters:
 	s/\\\(lq/“/g;
 	s/\\\(rq/”/g;
+	s/\\\(oq/‘/g;
+	s/\\\(cq/’/g;
 	s/\\\(dq/"/g;
+	s/\\\(aq/"/g;
+	s/\\\(Fo/«/g;
+	s/\\\(Fc/»/g;
+	s/\\\(fo/‹/g;
+	s/\\\(fc/›/g;
+	s/\\\(hy/-/g;
+	s/\\\(en/–/g;
+	s/\\\(em/—/g;
 
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
