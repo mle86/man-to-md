@@ -60,19 +60,3 @@ get_section () {
 		|| fail "Section '$1' not found!"
 }
 
-# test_pcre inputTest pcre [errorMessage]
-test_pcre () {
-	local input="$1"
-	local regex="$2"
-	local errmsg="${3:-Regex mismatch.}"
-
-	if ! printf '%s' "$input" | grep -m1 -qzP "$regex"; then
-		err  "$errmsg"
-		err  "  Regex:"
-		err  "$regex"
-		err  "  Tested input:"
-		fail "$output"
-	fi
-	true
-}
-

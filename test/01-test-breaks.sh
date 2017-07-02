@@ -7,11 +7,11 @@
 # There's a .P  between line3 and line4, which should get converted to a paragraph.
 output="$(conv_sample1 | get_section 'BREAKS')"
 
-test_pcre "$output" 'line 1( |\n)line 2' \
+assertRegex "$output" '/line 1( |\n)line 2/' \
 	"Contiguous lines did not get converted correctly!"
-test_pcre "$output" 'line 2\n\nline 3' \
+assertRegex "$output" '/line 2\n\nline 3/' \
 	"Lines separated by .br did not get converted correctly!"
-test_pcre "$output" 'line 3\n\nline 4' \
+assertRegex "$output" '/line 3\n\nline 4/' \
 	"Lines separated by .P did not get converted correctly!"
 
 

@@ -28,7 +28,7 @@ match_section_title () {
 	# and all tested section start with some text:
 	regex="$regex""\w"
 
-	test_pcre "$input" "$regex"
+	assertRegex "$input" "/$regex/"
 }
 
 

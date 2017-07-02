@@ -41,7 +41,7 @@ match_suboption () {
 
 output="$(conv_sample1 | get_section 'OPTIONS')"
 
-test_pcre "$output" 'program options[\.:]\n{2,}\* .*?--\w' \
+assertRegex "$output" '/program options[\.:]\n{2,}\* .*?--\w/' \
 	"There was no blank line inserted between text line and .TP list!"
 
 # First-level list items (.TP/.IP) should not be indented themselves,
@@ -62,7 +62,7 @@ match_suboption "$output" "M2" "Level two"
 # After a paragraph (.P/.LP/.PP), the list ends.
 # This means the following text should have regular indentation
 # and a leading blank line.
-test_pcre "$output" "\n\n {0,2}(?:\w[\w ]*)?section end"
+assertRegex "$output" '/\n\n {0,2}(?:\w[\w ]*)?section end/'
 
 
 success
