@@ -3,7 +3,7 @@
 
 
 assertContains "$(conv_sample1 | get_section 'OPTIONS')" "--verbose" \
-	"Conversion of \"\\-\" to plain \"-\" failed!"
+	'Conversion of "\-" to plain "-" failed!'
 
 
 output="$(conv_sample1 | get_section 'SPECIAL CHARACTERS')"
