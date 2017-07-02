@@ -44,10 +44,17 @@ output="$(conv_sample1 | get_section 'OPTIONS')"
 test_pcre "$output" 'program options[\.:]\n{2,}\* .*?--\w' \
 	"There was no blank line inserted between text line and .TP list!"
 
+# First-level list items (.TP/.IP) should not be indented themselves,
+# marked with a single asterisk,
+# and their continuation lines should be indented with at least one space.
+# .TP item names should have a line break after them (line ending with two spaces).
 match_option "$output" "verbose" "Show more"
 match_option "$output" "quiet"   "No output"
 match_option "$output" "mode"    "operating mode"
 
+# Second-level list items (.TP/.IP after .RS) should be indented with at least four spaces,
+# marked with a single asterisk,
+# and their continuation lines should be indented with at least one extra space.
 match_suboption "$output" "M0" "Level zero"
 match_suboption "$output" "M1" "Level one"
 match_suboption "$output" "M2" "Level two"
