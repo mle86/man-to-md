@@ -182,6 +182,8 @@ sub strip_highlighting {
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
 #	s/\\(.)/$1/g;
+	# non-printing zero-width character, used to mask strings that are not commands:
+	s/\\&//g;
 }
 
 sub section_title {
