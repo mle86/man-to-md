@@ -30,7 +30,7 @@ which should contain only one text line:
 <i>programName</i> \- <i>programDescription</i></pre></code>
 
 Example:
-```
+```roff
 .SH NAME
 man-to-md \- Converts nroff man pages to Markdown
 ```
@@ -54,7 +54,7 @@ and it should only show your program's call syntax.
 <i>programCallSyntax</i></code></pre>
 
 Example:
-```
+```roff
 .SH SYNOPSIS
 \fBman-to-md\fR
 [\fIOPTIONS\fR]
@@ -110,7 +110,7 @@ you may also use subsections:
 
 Example:
 
-```
+```roff
 Normal.
 .B "This line will be printed in boldface!"
 Normal again.
@@ -167,7 +167,7 @@ Nested lists:
 
 Example of a combined nested list:
 
-```
+```roff
 .TP
 .B "-v, --verbose"
 Enables verbose output.
@@ -213,7 +213,7 @@ Usage of the `.PD` command will not change the `man-to-md` output.)
 
 Example:
 
-```
+```roff
 For more information, refer to
 RFC\ 8140
 (https://tools.ietf.org/html/rfc8140).
@@ -255,7 +255,7 @@ NB: The `.cm`/`.co`/`.cx` commands are a custom extension, not regular man-pages
 If you want to use them in your manpages and have them actually work,
 you should include this macro definition somewhere near the beginning of your nroff file:
 
-```
+```roff
 .de co
 .  P
 .  nf  
