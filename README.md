@@ -4,9 +4,7 @@
 
 Version 0.5.1, July 2017
 
-```
-$ man-to-md.pl [OPTIONS] <manpage.roff >output.md
-```
+<pre><code>$ <b>man-to-md.pl</b> [<i>OPTIONS</i>] &lt;<i>manpage.roff</i> ><i>output.md</i></code></pre>
 
 # Description
 

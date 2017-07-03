@@ -8,7 +8,7 @@ CONV=man-to-md.pl
 all: ;
 
 README.md: doc/man-to-md.1 $(CONV)
-	perl $(CONV) --comment <$< >$@
+	perl $(CONV) --comment --formatted-code <$< >$@
 
 test:
 	git submodule update --init test/framework/
