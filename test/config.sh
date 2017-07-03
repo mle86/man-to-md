@@ -37,6 +37,7 @@ define () {
 		preserve_newlines=yes
 		shift
 	fi
+	local output=
 	local varname="$1"
 	local br="
 "
