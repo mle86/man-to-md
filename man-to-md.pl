@@ -130,6 +130,9 @@ sub {
 	# Clean up remaining markers:
 	s/${replacement_token}#[\w\-]+#\n?//g;
 
+	# There should never be a linebreak after a NBSP, it defeats the entire purpose.
+	s/(?<=&nbsp;)\n//g;
+
 	print;
 	exit;
 }->();
