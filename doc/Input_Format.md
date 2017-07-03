@@ -1,14 +1,20 @@
 # Input Format
 
+This file describes
+the nroff input format
+expected by *man-to-md*.
 
-# Header
+The program should accept most simple man pages without significant changes.
 
-## TH Headline
+
+## Header
+
+### TH Headline
 
 The first input line (after comments)
 must be a `.TH` line with this syntax:
 
-<pre><code><b>.TH</b> <i>programShortName</i> <i>manSection</i> <i>date</i> <i>programNameAndVersion</i></code></pre>
+<pre><code><b>.TH</b> <i>programShortName</i> <i>manSection</i> <i>date</i> <i>programNameAndVersion</i> [...]</code></pre>
 
 Example:
 `.TH MAN-TO-MD 1 "July 2017" "man-to-md v0.4"`
@@ -20,7 +26,7 @@ Example:
   (e.g. “man-to-md(1) - *description*).
 
 
-## NAME Section
+### NAME Section
 
 After the `.TH` line,
 the first section must be the `NAME` section
@@ -43,7 +49,7 @@ man-to-md \- Converts nroff man pages to Markdown
   or the em-dash (`\(em`).
 
 
-## SYNOPSIS Section
+### SYNOPSIS Section
 
 After the `NAME` section,
 the next section must be called
@@ -68,7 +74,7 @@ Example:
 * With the `-f` option, the `\fB`/`\fI`/`\fR` formatting sequences will be converted to Markdown HTML.
 
 
-# Main Content
+## Main Content
 
 After the `SYNOPSIS`/`SYNTAX` section
 comes the main text content.
@@ -87,7 +93,7 @@ comes the main text content.
     * `SEE ALSO` – references to other man pages, plus maybe a link to your project's homepage.
 
 
-## Subsections
+### Subsections
 
 Besides top-level sections (<code>.SH <i>sectionTitle</i></code>),
 you may also use subsections:
@@ -95,7 +101,7 @@ you may also use subsections:
 <pre><code><b>.SS</b> <i>sectionTitle</i></code></pre>
 
 
-## Text formatting
+### Text formatting
 
 * Lines starting with the **`.B`** command will be printed in **\*\*boldface\*\***.
 * Lines starting with the **`.I`** command will be printed in *\*italics\**.
@@ -119,7 +125,7 @@ Let's mix it up: \fBbold!\fR normal! \fIitalics!\fR normal!
 ```
 
 
-## Line Breaks
+### Line Breaks
 
 * Line breaks in the input
   will be converted to spaces.
@@ -129,14 +135,14 @@ Let's mix it up: \fBbold!\fR normal! \fIitalics!\fR normal!
   use the **`.br`** command.
 
 
-## Comments
+### Comments
 
 * Line comments (`\"`) may appear anyhwere.
 * The line comment command (`.\"`) is also recognized.
 * Block comments can be started with `.ig` and ended with `..`.
 
 
-## Lists
+### Lists
 
 *man-to-md* can handle two kinds of nroff lists:
 
@@ -194,7 +200,7 @@ Restore the original item padding with `.PD` after the `.RE` nested list end.
 Usage of the `.PD` command will not change the *man-to-md* output.)
 
 
-## Links
+### Links
 
 * Normal URLs in the input won't be changed in any way.
   Most Markdown viewers will turn them into links automatically.
@@ -248,7 +254,7 @@ Got it?
 ```
 
 
-## Code blocks
+### Code blocks
 
 Some man pages contain unformatted code blocks,
 usually in the `EXAMPLES` section.

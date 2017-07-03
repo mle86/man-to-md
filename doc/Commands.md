@@ -51,7 +51,7 @@
 # Known nroff Escape Sequences:
 
 * `\"`/`.\"`  Line comment (ignored).
-* `\ `  Non-breaking space.
+* <code>\\&nbsp;</code>  Non-breaking space.
 * `\&` Non-printing zero-width character (ignored).
 * `\(lq` “
 * `\(rq` ”
