@@ -58,6 +58,24 @@ to Markdown README files.
 * **-V**, **--version**  
   Shows version and license information.
 
+# Standards
+
+This program understands many nroff commands and macros commonly used in man page files.
+For a complete list, see
+&lt;doc/Commands.md>.
+
+The program emits Markdown syntax
+that should be readable with most Markdown editors/viewers.
+See
+&lt;doc/Markdown_Output.md>
+for more information.
+
+The program makes several assumptions about the input format
+that are not standardized
+but seem to be fairly commonplace
+in man pages; see
+&lt;doc/Input_Format.md>.
+
 # License
 
 [GNU GPL v3](http://gnu.org/licenses/gpl.html)
