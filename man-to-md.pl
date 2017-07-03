@@ -388,7 +388,7 @@ nextline()
 
 # skip NAME headline, extract description
 if (nextline() && section_title() && $section eq 'NAME') {
-	if (nextline() && m/ \\?- +(.+)$/) {
+	if (nextline() && m/ \\?(?:-|\\\(em|\\\(en) +(.+)$/) {
 		$description = $1;
 		nextline();
 	}
