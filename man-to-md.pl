@@ -186,6 +186,12 @@ sub strip_highlighting {
 	s/\\&//g;
 }
 
+sub strip_html {
+	# avoid accidental html output:
+	my @result = map{ s/</&lt;/g; $_ } ($#_ >= 0 ? @_ : ($_));
+	wantarray ? @result : $result[0]
+}
+
 sub section_title {
 	# If the current line contains a section title,
 	# this function sets $section, $prev_section, and the $is_... flags accordingly
@@ -223,6 +229,7 @@ sub reformat_syntax {
 			chomp;
 			$_ = qtok($1);
 			strip_highlighting();
+			$_ = strip_html($_);
 			$_ = "\n**\`$_\`**\n\n"
 		} elsif (m/^\.co/) {
 			$_ = "\n"
@@ -238,6 +245,7 @@ sub reformat_syntax {
 		chomp;
 		if ($code_formatting) {
 			# synopsis content with formatting
+			$_ = strip_html($_);
 			reformat_html();
 			strip_highlighting();
 			s/\\(.)/$1/g;  # in md <pre> blocks, backslashes are not special!
@@ -263,6 +271,7 @@ sub reformat_syntax {
 
 	# other formatting:
 	strip_highlighting();
+	$_ = strip_html($_);
 
 	if ($section eq 'AUTHOR') {
 		# convert e-mail address to link:
@@ -317,8 +326,8 @@ sub qtok {
 sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 
 
-sub print_section_title    ($) { print "\n$section_prefix$_[0]\n\n" }
-sub print_subsection_title ($) { print "\n$subsection_prefix$_[0]\n\n" }
+sub print_section_title    ($) { printf "\n%s%s\n\n", $section_prefix, strip_html($_[0]) }
+sub print_subsection_title ($) { printf "\n%s%s\n\n", $subsection_prefix, strip_html($_[0]) }
 
 sub paste_file {
 	my $filename = shift;
@@ -382,7 +391,7 @@ sub titlecase {
 nextline()
 	and m/^\.TH $re_token ($re_token) ($re_token) ($re_token)/
 	and (($mansection, $verdate) = (qtok($1), qtok($2)))
-	and qtok($3) =~ m/^(\w[\w\-_\.]*) v? ?(\d[\w\.\-\+]*)$/
+	and qtok($3) =~ m/^(\w[\w\-_\.<>]*) v? ?(\d[\w\.\-\+]*)$/
 	and (($progname, $version) = ($1, $2))
 	or die "could not parse first line";
 
@@ -395,8 +404,8 @@ if (nextline() && section_title() && $section eq 'NAME') {
 }
 
 print "[//]: # ($add_comment)\n\n"  if defined $add_comment;
-print "$headline_prefix$progname($mansection)";
-print " - $description"  if defined $description;
+printf "%s%s(%s)", $headline_prefix, strip_html($progname), $mansection;
+printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
 print "Version $version, $verdate\n\n" if ($version && $verdate);
@@ -418,6 +427,7 @@ do {
 				$in_rawblock = 1;
 				print "<pre><code>";
 			}
+			$_ = strip_html($_);
 			reformat_html;
 			strip_highlighting;
 			s/\\(.)/$1/g;  # in md <pre> blocks, backslashes are not special!

@@ -57,8 +57,11 @@ assertRegex "$output" '/link:\s+'"$maillink"'\s/' \
 	# should automatically get converted to a link:
 	# author@dummy.test
 
+LT='(?:<|&lt;)'
+GT='(?:>|&gt;)'
+
 addr='author2@dummy.test' ; maillink="\\[${addr}\\]\\(mailto:${addr}\\)"
-assertRegex "$output" '/inside angle brackets:\s+<'"$maillink"'>\s/' \
+assertRegex "$output" '/inside angle brackets:\s+'"$LT$maillink$GT"'\s/' \
 	"E-mail address inside angle brackets was not converted correctly!"
 
 	# This should also work inside angle brackets:

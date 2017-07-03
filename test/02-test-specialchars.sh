@@ -9,9 +9,12 @@ assertContains "$(conv_sample1 | get_section 'OPTIONS')" "--verbose" \
 output="$(conv_sample1 | get_section 'SPECIAL CHARACTERS')"
 errmsg="Conversion of special character sequence failed!"
 
-assertContains "$output" "lq<“>"  "$errmsg"
-assertContains "$output" "rq<”>"  "$errmsg"
-assertContains "$output" "dq<\">" "$errmsg"
+LT='(?:<|&lt;)'
+GT='(?:>|&gt;)'
+
+assertRegex "$output" "/lq${LT}“${GT}/"  "$errmsg"
+assertRegex "$output" "/rq${LT}”${GT}/"  "$errmsg"
+assertRegex "$output" "/dq${LT}\"${GT}/" "$errmsg"
 
 assertRegex "$output" "/nbsp(?: |&nbsp;)eol/" \
 	'Conversion of "\ " to NBSP failed!'
