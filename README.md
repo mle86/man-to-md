@@ -75,6 +75,11 @@ in man pages; see&nbsp;[doc/Input_Format.md](doc/Input_Format.md).
 
 [GNU GPL v3](http://gnu.org/licenses/gpl.html)
 
+# See Also
+
+Project homepage:
+https://github.com/mle86/man-to-md
+
 # Author
 
 Maximilian Eul
