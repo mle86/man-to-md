@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# Copyright © 2016,2017  Maximilian Eul
+#
 # This file is part of man-to-md.
 # 
 # man-to-md is free software: you can redistribute it and/or modify
