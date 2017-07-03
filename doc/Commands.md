@@ -50,10 +50,20 @@
 
 # Known nroff Escape Sequences:
 
-* `\"`, `.\"`  
-    Line comment (ignored).
+* `\"`/`.\"`  Line comment (ignored).
+* `\ `  Non-breaking space.
+* `\&` Non-printing zero-width character (ignored).
+* `\(lq` “
+* `\(rq` ”
+* `\(oq` ‘
+* `\(cq` ’
+* `\(dq` "
+* `\(aq` "
+* `\(Fo` «
+* `\(Fc` »
+* `\(fo` ‹
+* `\(fc` ›
+* `\(hy` -
+* `\(en` –
+* `\(em` —
 
-* `\ `  
-    Non-breaking space.
-
-* 
