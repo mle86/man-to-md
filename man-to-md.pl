@@ -167,7 +167,7 @@ sub strip_highlighting {
 	s/\\\(oq/‘/g;
 	s/\\\(cq/’/g;
 	s/\\\(dq/"/g;
-	s/\\\(aq/"/g;
+	s/\\\(aq/'/g;
 	s/\\\(Fo/«/g;
 	s/\\\(Fc/»/g;
 	s/\\\(fo/‹/g;
