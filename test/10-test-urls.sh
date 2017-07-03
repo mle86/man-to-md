@@ -1,13 +1,7 @@
 #!/bin/sh
 . $(dirname "$0")/init.sh
 
-
-output="$(conv urls.roff | paste -sd' ')"
 output="$(conv urls.roff )"
-	# We don't care about linebreaks/paragraphs in the output
-	# that are functionally equivalent to spaces.
-	# So we convert all linebreaks to spaces first --
-	# makes our search patterns simpler.
 
 
 # The URL conversion feature should pick up on lines that contain only an URL in parentheses
@@ -56,6 +50,7 @@ assertRegex "$output" '/link:\s+'"$maillink"'\s/' \
 	# At least in this section, e-mail addresses
 	# should automatically get converted to a link:
 	# author@dummy.test
+
 
 LT='(?:<|&lt;)'
 GT='(?:>|&gt;)'
