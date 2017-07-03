@@ -60,7 +60,7 @@ Options:
                             Uses a default comment without its argument.
   -w, --word WORD  Adds a word to the list of words
                    not to be titlecased in chapter titles.
-  -f, --formatted-code  Allow formatting in nf/fi code blocks and Synopsis line
+  -f, --formatted-code  Allow formatting in nf/fi code blocks and Synopsis line.
   -h, --help     Show program help
   -V, --version  Show program version
 
@@ -115,13 +115,14 @@ sub {
 	exit;
 }->();
 
-# nextline(keep_blanklines?=false)
+# nextline(keep_blanklines=false)
 #  Fetch next input line into $_.
 #  Returns true if there was an input line, false if EOF.
-#  If the first argument (keep_blankline?) is true,
+#  If the first argument (keep_blanklines) is true,
 #  blank lines will be returned;
 #  by default, blank lines will be skipped.
-#  This function also removes all line comments (\").
+#  This function also removes all line comments (\")
+#  and block comments (.ig).
 sub nextline {
 	my $keep_blanklines = $_[0] // 0;
 	my $in_comment;
@@ -298,7 +299,7 @@ sub reformat_html {
 	s#\\fI(.+?)\\fR#<i>$1</i>#g;
 }
 
-# Strips doublequote enclosure from string tokens, is present.
+# Strips doublequote enclosure from string tokens, if present.
 sub qtok {
 	my @result = map{ m/^"(.+)"$/ ? $1 : $_ } @_;
 	wantarray ? @result : $result[0]
