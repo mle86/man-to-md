@@ -1,4 +1,4 @@
-# Known nroff sequences:
+# Known nroff Macros:
 
 * `.TH`  
 	First line with name, man section, version, and date.
@@ -30,33 +30,30 @@
 	One definition list entry.
 	Begin of a list.
 
-* `.RS`  
-	Begin of a nested list.
-	Increases list indentation level.
-
-* `.RE`  
-	End of a nested list.
-	Decreases list indentation level.
+* `.RS`–`.RE`  
+    Increased list indentation level.
+    Can be used for sub-lists.
 
 * `.LP`/`.P`/`.PP`  
 	One blank line.
 	Also end of a list.
 
-* `.nf`  
+* `.nf`–`.fi`  
 	A block of unformatted text.
-
-* `.fi`  
-	End of an unformatted block.
 
 * `.de`–`..`  
 	Macro definition (ignored).
 
-* `\"`, `.\"`  
-    Line comment (ignored).
-
 * `.ig`–`..`  
     Block comment (ignored).
+
+
+# Known nroff Escape Sequences:
+
+* `\"`, `.\"`  
+    Line comment (ignored).
 
 * `\ `  
     Non-breaking space.
 
+* 
