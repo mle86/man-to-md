@@ -205,7 +205,7 @@ Usage of the `.PD` command will not change the `man-to-md` output.)
   e-mail addresses will not be treated specially.
 * To have a link with a custom label,
   put the label on its own line
-  and the URL in parentheses on the next line,
+  and the URL in parentheses (or brackets) on the next line,
   optionally followed by punctuation.
   It will be converted to a `[label](url)` Markdown link.
 
