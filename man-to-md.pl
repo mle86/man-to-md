@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+# man-to-md -- Converts nroff man pages to Markdown.
 # Copyright © 2016,2017  Maximilian Eul
 #
 # This file is part of man-to-md.
@@ -54,6 +55,7 @@ my %stopwords = map { $_ => 1 } (qw(
 sub Syntax (;$) {
 	printf STDERR <<EOT, PROGNAME;
 syntax: %s [OPTIONS] < input.nroff > output.md
+Converts nroff man pages to Markdown.
 Options:
   -p, --paste-after SECTION:FILENAME   Pastes the contents of FILENAME
                                        after the input SECTION.
