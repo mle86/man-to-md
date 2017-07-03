@@ -295,14 +295,14 @@ sub reformat_syntax {
 	strip_highlighting();
 	$_ = strip_html($_);
 
-	if ($section eq 'AUTHOR') {
+	if ($section eq 'AUTHOR' || $section eq 'AUTHORS') {
 		# convert e-mail address to link:
 		s/\b(\w[\w\-_\.\+]*@[\w\-_\+\.]+?\.[\w\-]+)\b/[$1](mailto:$1)/u;
 	}
 
 	# item lists and description lists:
 	if (m/^\.IP/ || m/^\.TP/) {
-		$is_desclist = m/^\.TP/ && $section ne 'EXIT CODES';
+		$is_desclist = m/^\.TP/ && ($section ne 'EXIT CODES' && $section ne 'EXIT STATUS');
 		my $indent = ($in_list > 1)
 			? '    ' x ($in_list - 1)
 			: '';

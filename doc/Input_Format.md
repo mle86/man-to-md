@@ -201,7 +201,7 @@ Usage of the `.PD` command will not change the *man-to-md* output.)
 * E-mail addresses in the input
   will be converted to
   <code>\[<i>addr</i>]\(mailto:<i>addr</i>)</code> links,
-  but only if the current section is named “`AUTHOR`”.
+  but only if the current section is named “`AUTHOR`” (or “`AUTHORS`”).
   In all other sections,
   e-mail addresses will not be treated specially.
 * To have a link with a custom label,
