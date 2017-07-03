@@ -1,4 +1,19 @@
 .TH TESTPROG "7" "June 2017" "testprog 0.9.2" ""
+.de co
+.  P
+.  nf
+.  RS 4
+..
+.de cm
+.  co
+.  B "\\$1"
+.  P
+..
+.de cx
+.  RE
+.  fi
+.  P
+..
 .SH NFBLOCK
 This text comes before the code block.
 .P
@@ -12,3 +27,10 @@ empty line:
 .fi
 .P
 This text comes after the code block.
+.SH CMBLOCK
+text 0
+.cm "mycommand < myinput.txt"
+cm-output1
+cm-output2 \\" not a comment
+.cx
+text 1

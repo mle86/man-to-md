@@ -1,6 +1,8 @@
 #!/bin/sh
 . $(dirname "$0")/init.sh
 
+output="$(conv code.roff)"
+
 
 # Without the -f option, the output should be indented with 4 spaces
 # and all highlighting escapes should be removed:
@@ -17,7 +19,7 @@ This text comes before the code block.
 This text comes after the code block.
 EOT
 
-assertEq "$(conv code.roff | get_section 'NFBLOCK')" "$expectedOutput" \
+assertEq "$(printf '%s' "$output" | get_section 'NFBLOCK')" "$expectedOutput" \
 	"The .nf code block was not converted correctly!"
 
 
@@ -41,5 +43,14 @@ EOT
 assertEq "$(conv code.roff -f | get_section 'NFBLOCK')" "$expectedOutput" \
 	"With the -f option, the .nf code block was not converted correctly!"
 
+
+cm_output="$(printf '%s' "$output" | get_section 'CMBLOCK')"
+
+assertRegex "$cm_output" "/(?:\`mycommand < myinput|<code>(?:<pre>)?mycommand &lt; myinput)/" \
+	".cm command line not found! (Or HTML entity conversion problem)"
+assertContains "$cm_output" "cm-output1" \
+	".cm command output not found!"
+assertContains "$cm_output" "cm-output2" \
+	".cm command output only partially copied!"
 
 success
