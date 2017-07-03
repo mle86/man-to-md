@@ -59,20 +59,17 @@ to Markdown README files.
 # Standards
 
 This program understands many nroff commands and macros commonly used in man page files.
-For a complete list, see
-[doc/Commands.md](doc/Commands.md).
+For a complete list, see&nbsp;[doc/Commands.md](doc/Commands.md).
 
 The program emits Markdown syntax
 that should be readable with most Markdown editors/viewers.
-See
-[doc/Markdown_Output.md](doc/Markdown_Output.md)
+See&nbsp;[doc/Markdown_Output.md](doc/Markdown_Output.md)
 for more information.
 
 The program makes several assumptions about the input format
 that are not standardized
 but seem to be fairly commonplace
-in man pages; see
-[doc/Input_Format.md](doc/Input_Format.md).
+in man pages; see&nbsp;[doc/Input_Format.md](doc/Input_Format.md).
 
 # License
 
