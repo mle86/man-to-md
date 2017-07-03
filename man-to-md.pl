@@ -122,6 +122,14 @@ sub {
 	# Line breaks;
 	s/\n *${replacement_token}#BRK#/  \n/g;
 
+	# Internal links:
+	s=${replacement_token}#INTERNAL-LINK#\n?(?:((?!<|&lt;)[^\n]+)\n)?(?:<|&lt;)([^\n]+?)(?:>|&gt;)([\s,;\.\?!]*)$=
+		'[' . ($1 // $2) . '](' . $2 . ')' . $3
+		=gme;
+
+	# Clean up remaining markers:
+	s/${replacement_token}#[\w\-]+#\n?//g;
+
 	print;
 	exit;
 }->();
@@ -140,6 +148,9 @@ sub nextline {
 	do {{
 		$_ = <>;
 		return 0 unless defined;
+
+		# special markers in comments:
+		s/^\.?\s*\\"\s*INTERNAL-LINK.*$/${replacement_token}#INTERNAL-LINK#/s  or
 
 		s/^\.\\".+$//  # remove line comment commands
 		or

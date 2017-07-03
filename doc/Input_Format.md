@@ -224,6 +224,29 @@ This will be converted to
 which will render as
 “For more information, refer to [RFC 8140](https://tools.ietf.org/html/rfc8140).”.
 
+Special case: internal links.
+
+* If you want your Markdown output file
+  to include a relative link to a repository-internal file
+  (GitHub supports this),
+  there are two possible ways:
+  * A comment line containing only the word “`INTERNAL-LINK`”,
+    followed by the link target in angle brackets.  
+    This will result in a <code>\[<i>target</i>](<i>target</i>)</code> link.
+  * A comment line containing only the word “`INTERNAL-LINK`”,
+    followed by one line containing the link title (must not start with an opening angle bracket),
+    followed by the link target in angle brackets.  
+    This will result in a <code>\[<i>title</i>](<i>target</i>)</code> link.
+
+Internal link example:
+
+```roff
+For more information, see
+.\" INTERNAL-LINK
+<doc/Other_Information.md>.
+Got it?
+```
+
 
 ## Code blocks
 

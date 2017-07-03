@@ -63,4 +63,14 @@ assertRegex "$output" '/inside angle brackets:\s+'"$LT$maillink$GT"'\s/' \
 	# <author2@dummy.test>
 	# Fin!
 
+
+intlnk='doc\/More_Information\.md'
+assertRegex "$output" "/For more information, see\\s+\\[$intlnk\\]\\($intlnk\\)\\./msi" \
+	"Internal link was not converted correctly!"
+assertRegex "$output" "/with a different\\s+\\[link title\\]\\($intlnk\\)!/msi" \
+	"Internal link with custom title was not converted correctly!"
+assertRegex "$output" "/followed by an angle bracket:\\s+\\[$intlnk\\]\\($intlnk\\)\\s+&lt;other stuff/" \
+	"Internal link (without custom title, but followed by an angle bracket) was not converted correctly!"
+
+
 success
