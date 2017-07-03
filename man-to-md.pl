@@ -1,4 +1,4 @@
-#!/usr/bin/perl -W
+#!/usr/bin/perl
 
 # This file is part of man-to-md.
 # 
@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with man-to-md.  If not, see <http://www.gnu.org/licenses/>.
 
-
+use strict;
+use warnings;
 use Getopt::Long qw(:config no_getopt_compat bundling);
 use File::Basename qw(dirname basename);
 chdir dirname($0);
@@ -30,7 +31,7 @@ use constant {
 
 my ($section, $subsection, $prev_section);
 my ($is_synopsis, $in_list, $start_list_item, $is_deflist, $in_rawblock);
-my ($progname, $mansection, $version, $verdate);
+my ($progname, $mansection, $version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 my $subsection_prefix  = '## ';
