@@ -2,6 +2,7 @@
 .SH COMMENTS TESTING
 Some normal text.
 This line contains a line comment: \" SENTINEL1
+This line also contains a line comment: \\\" SENTINEL4
 .P
 More text.
 .\" SENTINEL2  Line comment command
@@ -13,4 +14,8 @@ SENTINEL3
 blah blah blah
 ..
 EOL.
+.P
+This line not NOT contain a line comment: \\" MARKER4
+.P
+Neither does this line: \\\\" MARKER5
 .P

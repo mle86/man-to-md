@@ -139,7 +139,10 @@ sub nextline {
 	do {{
 		$_ = <>;
 		return 0 unless defined;
-		s/(?:^\.)?\\".*$//;  # remove line comments
+
+		s/^\.\\".+$//  # remove line comment commands
+		or
+		s/^((?:\\[^"]|[^\\])++)\\".*$/$1/;  # remove line comments
 
 		if (m/^\.ig/ || $in_comment) {
 			# block comment

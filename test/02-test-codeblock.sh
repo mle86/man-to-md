@@ -52,5 +52,7 @@ assertContains "$cm_output" "cm-output1" \
 	".cm command output not found!"
 assertContains "$cm_output" "cm-output2" \
 	".cm command output only partially copied!"
+assertContains "$cm_output" "cm-output \\\" not a comment" \
+	"Escaped comment in .cm command output was treated like a real comment!"
 
 success
