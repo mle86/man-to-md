@@ -234,7 +234,6 @@ sub reformat_syntax {
 			chomp;
 			$_ = qtok($1);
 			strip_highlighting();
-			$_ = strip_html($_);
 			$_ = "\n**\`$_\`**\n\n"
 		} elsif (m/^\.co/) {
 			$_ = "\n"
