@@ -73,7 +73,7 @@ Example:
 After the `SYNOPSIS`/`SYNTAX` section
 comes the main text content.
 
-* From here on, `man-to-md` does not expect any particular section titles.
+* From here on, *man-to-md* does not expect any particular section titles.
 * It's common to start with a `DESCRIPTION` section
   that explains what the program actually does
   and what it's commonly used for.
@@ -138,7 +138,7 @@ Let's mix it up: \fBbold!\fR normal! \fIitalics!\fR normal!
 
 ## Lists
 
-`man-to-md` can handle two kinds of nroff lists:
+*man-to-md* can handle two kinds of nroff lists:
 
 * **`.TP`** lists,
   which are similar to TeX' *description* lists.  
@@ -191,7 +191,7 @@ Available modes:
 In case of nested lists, it might be better to suppress this behaviour
 with a `.PD 0` command right before the `.RS` nested list begin.
 Restore the original item padding with `.PD` after the `.RE` nested list end.
-Usage of the `.PD` command will not change the `man-to-md` output.)
+Usage of the `.PD` command will not change the *man-to-md* output.)
 
 
 ## Links
@@ -255,9 +255,9 @@ usually in the `EXAMPLES` section.
 
 * The usual way to format a code block is to enclose it in **`.nf`** and **`.fi`** commands.  
   The Markdown output will be a <code>```</code> block.
-* `man-to-md` knows extra syntax for shell input and sample output: 
-   **`.cm`**–`.cx` and
-   **`.co`**–`.cx`.
+* *man-to-md* knows extra syntax for shell input and sample output:
+  **`.cm`**–`.cx` and
+  **`.co`**–`.cx`.
     * `.cm` is for a shell command and its output.
       Follow the `.cm` command with the shell command in quotes.
       It will be printed in boldface and slightly indented.
@@ -295,3 +295,4 @@ you should include this macro definition somewhere near the beginning of your nr
 .  P
 ..
 ```
+
