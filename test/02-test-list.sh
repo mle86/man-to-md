@@ -64,5 +64,9 @@ match_suboption "$output" "M2" "Level two"
 # and a leading blank line.
 assertRegex "$output" '/\n\n {0,2}(?:\w[\w ]*)?section end/'
 
+# The description for option --mode contains a .br linebreak.
+assertRegex "$output" '/\. {2,}\n {1,3}Possible modes/i' \
+	".br linebreak inside .TP list was not converted correctly!"
+
 
 success

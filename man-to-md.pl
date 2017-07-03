@@ -40,6 +40,8 @@ my $section_prefix  = '# ';
 my $subsection_prefix  = '## ';
 my $re_token = '(?:"(?:\\.|[^"])*+"|(?:\\\\.|[^\s"])(?:\\\\.|\S)*+)';  # matches one token, with or without "enclosure".
 
+my $replacement_token = "\001kXXfQ6Yd" . int(10000 * rand);
+
 my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
 my %paste_before_section = ( );
 my $code_formatting = 0;
@@ -116,6 +118,9 @@ sub {
 	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
 	s/^(.+[^)>])(?:$)\n^(?:[\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
+	# Line breaks;
+	s/\n *${replacement_token}#BRK#/  \n/g;
+
 	print;
 	exit;
 }->();
@@ -154,7 +159,7 @@ sub strip_highlighting {
 
 	# paragraphs:
 	if (m/^\.br/i) {
-		$_ = ($in_list) ? "" : "\n";
+		$_ = "${replacement_token}#BRK#";
 		return
 	} elsif (m/^\.(LP|P|PP)\b/) {
 		$_ = "\n";  # one blank line
