@@ -102,6 +102,7 @@ sub add_paste_file ($$$) {
 	push @{ $addto->{$section} }, $filename;
 }
 
+# Install processing function for all output:
 sub {
 	my $pid = open(STDOUT, '|-');
 	return  if $pid > 0;
