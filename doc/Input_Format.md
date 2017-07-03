@@ -199,7 +199,8 @@ Usage of the `.PD` command will not change the `man-to-md` output.)
 * Normal URLs in the input won't be changed in any way.
   Most Markdown viewers will turn them into links automatically.
 * E-mail addresses in the input
-  will be converted to <code>\[<i>addr</i>]\(mailto:<i>addr</i>)</code> links,
+  will be converted to
+  <code>\[<i>addr</i>]\(mailto:<i>addr</i>)</code> links,
   but only if the current section is named “`AUTHOR`”.
   In all other sections,
   e-mail addresses will not be treated specially.
@@ -207,7 +208,8 @@ Usage of the `.PD` command will not change the `man-to-md` output.)
   put the label on its own line
   and the URL in parentheses (or brackets) on the next line,
   optionally followed by punctuation.
-  It will be converted to a `[label](url)` Markdown link.
+  It will be converted to a
+  <code>\[<i>label</i>](<i>url</i>)</code> Markdown link.
 
 Example:
 
