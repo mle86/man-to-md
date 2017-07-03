@@ -33,7 +33,7 @@ use constant {
 };
 
 my ($section, $subsection, $prev_section);
-my ($is_synopsis, $in_list, $start_list_item, $is_deflist, $in_rawblock);
+my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock);
 my ($progname, $mansection, $version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -278,9 +278,9 @@ sub reformat_syntax {
 		s/\b(\w[\w\-_\.\+]*@[\w\-_\+\.]+?\.[\w\-]+)\b/[$1](mailto:$1)/u;
 	}
 
-	# lists and definition lists:
+	# item lists and description lists:
 	if (m/^\.IP/ || m/^\.TP/) {
-		$is_deflist = m/^\.TP/ && $section ne 'EXIT CODES';
+		$is_desclist = m/^\.TP/ && $section ne 'EXIT CODES';
 		my $indent = ($in_list > 1)
 			? '    ' x ($in_list - 1)
 			: '';
@@ -300,9 +300,9 @@ sub reformat_syntax {
 		if ($start_list_item) {
 			$start_list_item = 0;
 
-			# In definition list (probably some CLI options).
+			# In description list (probably some CLI options).
 			# Add extra line break after option name:
-			s/$/  /  if $is_deflist;
+			s/$/  /  if $is_desclist;
 		} else {
 			my $indent = ' ' x (2 + (4 * ($in_list - 1)));
 			s/^/$indent/;

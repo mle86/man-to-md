@@ -27,7 +27,7 @@
 	Begin of a list.
 
 * `.TP`  
-	One definition list entry.
+	One description list entry.
 	Begin of a list.
 
 * `.RS`–`.RE`  
