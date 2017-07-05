@@ -1,0 +1,5 @@
+# The test scripts are, of course, NOT vendored.
+# They're a legit part of this project.
+# But they mess up our GitHub language stats.
+*-test-*.sh	linguist-vendored
+
