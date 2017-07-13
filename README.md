@@ -63,7 +63,7 @@ For a complete list, see&nbsp;[doc/Commands.md](doc/Commands.md).
 
 The program emits Markdown syntax
 that should be readable with most Markdown editors/viewers.
-See&nbsp;[doc/Markdown_Output.md](doc/Markdown_Output.md)
+See&nbsp;[doc/Markdown_Output_Format.md](doc/Markdown_Output_Format.md)
 for more information.
 
 The program makes several assumptions about the input format
