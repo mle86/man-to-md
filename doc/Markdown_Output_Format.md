@@ -13,7 +13,7 @@ This is the output format:
 
 <pre><code># <i>programName</i>(<i>manSection</i>) - <i>programDescription</i>
 
-Version v<i>programVersion</i>, <i>programDate</i>
+Version <i>programVersion</i>, <i>programDate</i>
 
 ```
 <i>programSyntax</i>
