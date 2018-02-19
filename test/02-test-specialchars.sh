@@ -20,6 +20,8 @@ assertRegex "$output" "/nbsp(?: |&nbsp;)eol/" \
 	'Conversion of "\ " to NBSP failed!'
 assertRegex "$output" "/nbsp2(?: |&nbsp;)eol2/" \
 	'NBSP at line-end did not cause the linebreak to get removed!'
+assertRegex "$output" "/nbsp3(?: |&nbsp;)eol/" \
+	'Conversion of "\~" to NBSP failed!'
 
 
 success

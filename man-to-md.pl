@@ -203,14 +203,19 @@ sub strip_highlighting {
 	s/\\\(en/–/g;
 	s/\\\(em/—/g;
 
-	s/\\ /&nbsp;/g;  # non-breakable space
+	s/\\[ ~]/&nbsp;/g;  # non-breakable space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
 
 	# other special characters, except "\\":
 	s/\\([\- ])/$1/g;
 #	s/\\(.)/$1/g;
-	# non-printing zero-width character, used to mask strings that are not commands:
-	s/\\&//g;
+
+	# non-printing zero-width characters, used to mask strings that are not commands:
+	s/\\[&\):]//g;
+	# other unprintables and control characters:
+	s/\\[\/,]//g;
+
+
 }
 
 sub strip_html {
