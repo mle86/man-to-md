@@ -232,7 +232,7 @@ sub section_title {
 
 	$in_list = 0;
 	$prev_section = $section // '';
-	$section = $1;
+	$section = qtok($1);
 	undef $subsection;
 
 	$is_synopsis = ($section eq 'SYNTAX' || $section eq 'SYNOPSIS');
@@ -243,7 +243,7 @@ sub subsection_title {
 	return 0 unless m/^\.SS +(.+)$/m;
 
 	$in_list = 0;
-	$subsection = $1;
+	$subsection = qtok($1);
 	1
 }
 
