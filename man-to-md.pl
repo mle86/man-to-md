@@ -358,6 +358,8 @@ sub reformat_syntax {
 sub reformat_html {
 	s#\\fB(.+?)\\fR#<b>$1</b>#g;
 	s#\\fI(.+?)\\fR#<i>$1</i>#g;
+	s#^\.B +(.+)#<b>$1</b>#g;
+	s#^\.I +(.+)#<i>$1</i>#g;
 }
 
 # Strips doublequote enclosure from string tokens, if present.
