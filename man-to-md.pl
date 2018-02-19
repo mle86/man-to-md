@@ -34,7 +34,7 @@ use constant {
 
 my ($section, $subsection, $prev_section);
 my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock);
-my ($progname, $mansection, $version, $verdate, $description);
+my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 my $subsection_prefix  = '## ';
@@ -415,11 +415,14 @@ sub read_version {
 
 	if ($_[0] =~ m/^(?:$progname(?: \(\d\))?\s+)(?:v|ver\.?|version)? ?(\d[\w\.\-\+]*)$/i) {
 		# found explicit version following known progname
+		$is_bare_version = 1;
 		$version = $1;
 		return 1
 	}
 
-	return 0
+	# found something else
+	$version = $_[0];
+	return 1
 }
 
 ##############################
@@ -444,7 +447,13 @@ printf "%s%s(%s)", $headline_prefix, strip_html($progname), $mansection;
 printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
-print "Version $version, $verdate\n\n" if ($version && $verdate);
+if ($version && $verdate) {
+	if ($is_bare_version) {
+		print "Version $version, $verdate\n\n";
+	} else {
+		print "$version, $verdate\n\n";
+	}
+}
 
 # skip SYNOPSIS headline
 nextline() if (section_title && $is_synopsis);

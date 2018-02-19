@@ -16,4 +16,9 @@ assertRegex "$output" "/Version v?$TESTPROG_VERSION/i" \
 assertContains "$output" "$TESTPROG_DATE" \
 	"The first few lines do not contain the program date!"
 
+
+assertRegex "$(conv pkg.roff | head -n $check_n_lines)" "/xyz testing package v?$TESTPROG_VERSION, $TESTPROG_DATE/i" \
+	"The package name (differing from the actual program name) was not included in the first few lines!"
+
+
 success
