@@ -72,6 +72,7 @@ Example:
   below your program name, version, and short description.
 * Without the `-f` option, any formatting will be removed.
 * With the `-f` option, the `\fB`/`\fI`/`\fR` formatting sequences will be converted to Markdown HTML.
+* Multiple invocation variants can be separated with `.br` lines.
 
 
 ## Main Content
