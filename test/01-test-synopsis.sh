@@ -4,7 +4,7 @@
 
 check_n_lines=8
 
-get_synopsis () { head -n $check_n_lines | grep -m1 -zoP '(?:(?<=\n<pre><code>).+(?=</code></pre>)|(?<=\n```\n).+)'; }
+get_synopsis () { head -n $check_n_lines | grep -m1 -zoP '(?s)(?:(?<=\n<pre><code>).+(?=</code></pre>)|(?<=\n```\n).+(?=\n```))'; }
 
 
 assertContains "$(conv_sample1 | get_synopsis)" "testprog [OPTIONS] [--] [FILENAME...]" \
