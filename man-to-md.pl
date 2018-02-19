@@ -249,6 +249,10 @@ sub postprocess_synopsis {
 	s#<synopsis>(.*)</synopsis>#```$1```#s ||
 	s#^<synopsisFormatted>\n(.*)\n</synopsisFormatted>#<pre><code>$1</code></pre>#s;
 
+	# Synopsis blocks are processed line-by-line, then merged by the global output postprocessing function.
+	# This may cause spaces to be inserted at unexpected places. Remove them:
+	s/ *${replacement_token}#BRK# */\n/gs;
+
 	$_
 }
 
