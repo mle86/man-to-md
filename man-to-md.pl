@@ -102,7 +102,7 @@ sub add_paste_file ($$$) {
 	push @{ $addto->{$section} }, $filename;
 }
 
-# Install processing function for all output:
+# Install postprocessing function for all output:
 sub {
 	my $pid = open(STDOUT, '|-');
 	return  if $pid > 0;
@@ -114,6 +114,10 @@ sub {
 	# merge code blocks:
 	s#(?:\n```\n```\n|</code></pre>\n<pre><code>|</code>\n<code>\n?)# #g;
 	s#(?:</code><code>|</pre><pre>)##g;
+	s#(?:\n</synopsis>\n<synopsis>\n|\n</synopsisFormatted>\n<synopsisFormatted>\n)# #g;
+
+	# ensure correct synposis format:
+	s#(<(synopsis(?:Formatted)?)>.*</\2>)#postprocess_synopsis($1)#se;
 
 	# URLs:
 	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
@@ -238,6 +242,16 @@ sub subsection_title {
 	1
 }
 
+sub postprocess_synopsis {
+	local $_ = $_[0];
+
+	# Turn fake block tags into correct markup:
+	s#<synopsis>(.*)</synopsis>#```$1```#s ||
+	s#^<synopsisFormatted>\n(.*)\n</synopsisFormatted>#<pre><code>$1</code></pre>#s;
+
+	$_
+}
+
 sub reformat_syntax {
 	# commands to be ignored:
 	if (m/\.PD/) {
@@ -271,10 +285,10 @@ sub reformat_syntax {
 			reformat_html();
 			strip_highlighting();
 			s/\\(.)/$1/g;  # in md <pre> blocks, backslashes are not special!
-			$_ = "<pre><code>$_</code></pre>\n"
+			$_ = "<synopsisFormatted>\n$_\n</synopsisFormatted>\n"
 		} else {
 			strip_highlighting();
-			$_ = "\`\`\`\n$_\n\`\`\`\n";
+			$_ = "<synopsis>\n$_\n</synopsis>\n";
 		}
 		return
 	}
