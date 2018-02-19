@@ -411,10 +411,10 @@ sub titlecase {
 
 # eat first line, extract progname, version, and man section
 nextline()
-	and m/^\.TH $re_token ($re_token) ($re_token) ($re_token)/
-	and (($mansection, $verdate) = (qtok($1), qtok($2)))
-	and qtok($3) =~ m/^(\w[\w\-_\.<>]*) v? ?(\d[\w\.\-\+]*)$/
-	and (($progname, $version) = ($1, $2))
+	and m/^\.TH ($re_token) ($re_token) ($re_token) ($re_token)/
+	and (($progname, $mansection, $verdate) = (lc(qtok($1)), qtok($2), qtok($3)))
+	and qtok($4) =~ m/^(\w[\w\-_\.<>]*) v? ?(\d[\w\.\-\+]*)$/
+	and ($version = $2)
 	or die "could not parse first line";
 
 # skip NAME headline, extract description

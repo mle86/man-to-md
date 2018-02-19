@@ -19,10 +19,10 @@ must be a `.TH` line with this syntax:
 Example:
 `.TH MAN-TO-MD 1 "July 2017" "man-to-md v0.4"`
 
-* *programShortName* will be ignored.
+* *programShortName* will be lowercased and used as the document title.
 * *programNameAndVersion* should be a string
   like “`man-to-md 1.0`” or “`man-to-md v2.9.9-alpha3`”.
-* Your program's name and version from the fourth token will be used for the output's headline
+* Your program's name from the first token and its version from the fourth token will be used for the output's headline
   (e.g. “man-to-md(1) - *description*).
 
 
