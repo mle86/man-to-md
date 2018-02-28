@@ -33,7 +33,7 @@ use constant {
 };
 
 my ($section, $subsection, $prev_section);
-my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock);
+my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock, $text_indent, $start_indented_line);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -185,6 +185,10 @@ sub strip_highlighting {
 		return
 	} elsif (m/^\.(LP|P|PP)\b/) {
 		$_ = "\n";  # one blank line
+		if ($text_indent > 0) {
+			$_ .= (' ' x (4 * ($text_indent - 1))) . ': ';
+			$start_indented_line = 2;
+		}
 		$in_list = 0;
 	}
 
@@ -232,6 +236,7 @@ sub section_title {
 	return 0 unless m/^\.SH +(.+)$/m;
 
 	$in_list = 0;
+	$text_indent = 0;
 	$prev_section = $section // '';
 	$section = qtok($1);
 	undef $subsection;
@@ -244,6 +249,7 @@ sub subsection_title {
 	return 0 unless m/^\.SS +(.+)$/m;
 
 	$in_list = 0;
+	$text_indent = 0;
 	$subsection = qtok($1);
 	1
 }
@@ -342,6 +348,13 @@ sub reformat_syntax {
 	} elsif ($in_list && m/^\.RE/) {
 		$in_list--;
 		$_ = ''
+	} elsif (m/^\.RS/) {
+		$text_indent++;
+		$start_indented_line = 1;
+		$_ = (' ' x (4 * ($text_indent - 1))) . ': ';
+	} elsif (m/^\.RE/) {
+		$text_indent--  if ($text_indent > 0);
+		$_ = "\n";  # extra line ends the definition list indentation
 	} elsif ($in_list) {
 		if ($start_list_item) {
 			$start_list_item = 0;
@@ -351,6 +364,13 @@ sub reformat_syntax {
 			s/$/  /  if $is_desclist;
 		} else {
 			my $indent = ' ' x (2 + (4 * ($in_list - 1)));
+			s/^/$indent/;
+		}
+	} elsif ($text_indent) {
+		if ($start_indented_line) {
+			$start_indented_line--
+		} else {
+			my $indent = (' ' x (2 + (4 * ($text_indent - 1))));
 			s/^/$indent/;
 		}
 	}
