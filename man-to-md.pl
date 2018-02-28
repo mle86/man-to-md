@@ -207,6 +207,7 @@ sub strip_highlighting {
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
 
 	# other special characters, except "\\":
+	s/`/\\`/g;
 	s/\\([\- ])/$1/g;
 #	s/\\(.)/$1/g;
 
