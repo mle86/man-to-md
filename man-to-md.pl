@@ -159,7 +159,7 @@ sub nextline {
 		# special markers in comments:
 		s/^\.?\s*\\"\s*INTERNAL-LINK.*$/${replacement_token}#INTERNAL-LINK#/s  or
 
-		s/^\.\\".+$//  # remove line comment commands
+		s/^\.\\".*$//  # remove line comment commands
 		or
 		s/^((?:\\[^"]|[^\\])++)\\".*$/$1/;  # remove line comments
 

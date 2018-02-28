@@ -29,5 +29,8 @@ assertContains "$output" 'MARKER4' \
 assertContains "$output" 'MARKER5' \
 	'Escaped line comment (with extra escaped backslash) (\\\\") was treated like a real line comment!'
 
+assertRegex "$output" '/Aaa\s+Bbb/' \
+	'Empty line comment commands were not removed correctly!'
+
 
 success
