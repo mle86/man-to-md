@@ -331,17 +331,23 @@ sub reformat_syntax {
 	}
 
 	# item lists and description lists:
-	if (m/^\.IP/ || m/^\.TP/) {
-		$is_desclist = m/^\.TP/ && ($section ne 'EXIT CODES' && $section ne 'EXIT STATUS');
+	if (m/^\.IP(?: +($re_token))?/ || m/^\.TP/) {
+		my $tok = defined($1) ? qtok($1) : undef;
+		my $is_bullet = (!defined($tok) || $tok eq '' || $tok eq '-' || $tok eq 'o');
+		$is_desclist = !$is_bullet || (m/^\.TP/ && ($section ne 'EXIT CODES' && $section ne 'EXIT STATUS'));
 		my $indent = ($in_list > 1)
 			? '    ' x ($in_list - 1)
 			: '';
 		$_ = $indent . '* ';  # no trailing break here
+		if ($is_bullet) {
+			$start_list_item = 1;
+		} else {
+			$_ .= $tok . "  \n";
+		}
 		if (!$in_list) {
 			$_ = "\n$_";
 			$in_list = 1;
 		}
-		$start_list_item = 1;
 	} elsif ($in_list && m/^\.RS/) {
 		$in_list++;
 		$_ = ''

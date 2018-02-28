@@ -6,12 +6,13 @@ match_option () {
 	local output="$1"
 	local option="$2"
 	local description="$3"
+	local listcmd="${4:-TP}"
 
 	local regex='\n\* .*?'"$option"'(?:.*\S)*?  \n'
 	regex="$regex"' {1,3}(?:\S.*?)?'"$description"'.*?\S\n'
 
 	if ! printf '%s' "$output" | grep -qzP "$regex"; then
-		err ".TP option list got converted incorrectly! (Was checking \".TP --$option\" output)"
+		err ".TP option list got converted incorrectly! (Was checking \".$listcmd --$option\" output)"
 		err "  Regex:"
 		err "$regex"
 		err "  Output:"
@@ -51,6 +52,7 @@ assertRegex "$output" '/program options[\.:]\n{2,}\* .*?--\w/' \
 match_option "$output" "verbose" "Show more"
 match_option "$output" "quiet"   "No output"
 match_option "$output" "mode"    "operating mode"
+match_option "$output" "yes"     "Go for it"  'IP'
 
 # Second-level list items (.TP/.IP after .RS) should be indented with at least four spaces,
 # marked with a single asterisk,
