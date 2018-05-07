@@ -423,7 +423,7 @@ sub paste_file {
 	my $content = <FH>;
 	close FH;
 
-	$content =~ s/\s+$//;
+#	$content =~ s/\s+$//;
 	print "$content\n";
 
 	1
