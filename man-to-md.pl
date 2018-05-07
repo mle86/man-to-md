@@ -499,6 +499,11 @@ printf "%s%s(%s)", $headline_prefix, strip_html($progname), $mansection;
 printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
+if (defined $paste_after_section{'HEADLINE'}) {
+	paste_file($_)  foreach (@{ $paste_after_section{'HEADLINE'} });
+	undef $paste_after_section{'HEADLINE'};
+}
+
 if ($version && $verdate) {
 	if ($is_bare_version) {
 		print "Version $version, $verdate\n\n";
