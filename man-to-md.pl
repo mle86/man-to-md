@@ -407,7 +407,7 @@ sub paste_file {
 	my $filename = shift;
 	return 0 unless -r $filename;
 
-	if ($filename =~ m/^(.+)\.md$/) {
+	if ($filename =~ m/^(?:[a-zA-Z0-9_\-]+\/)*(.+)\.md$/) {
 		my $section_title = $1;
 		print_section_title $section_title;
 	}
