@@ -59,12 +59,16 @@ sub Syntax (;$) {
 syntax: %s [OPTIONS] < input.nroff > output.md
 Converts nroff man pages to Markdown.
 Options:
-  -p, --paste-after SECTION:FILENAME   Pastes the contents of FILENAME
-                                       after the input SECTION.
-  -P, --paste-before SECTION:FILENAME  Pastes the contents of FILENAME
-                                       right before the input SECTION.
-  -c, --comment [COMMENT]   Adds an invisible comment as first line.
-                            Uses a default comment without its argument.
+  -p, --paste-section-after SECTION:FILENAME
+                   Pastes the contents of FILENAME after the input SECTION
+                   and adds the filename as section title.
+  -P, --paste-section-before SECTION:FILENAME
+                   Pastes the contents of FILENAME right before the input SECTION
+                   and adds the filename as section title.
+  --paste-after  SECTION:FILENAME   Like -p, but does not add a section title.
+  --paste-before SECTION:FILENAME   Like -P, but does not add a section title.
+  -c, --comment [COMMENT]  Adds an invisible comment as first line.
+                           Uses a default comment without its argument.
   -w, --word WORD  Adds a word to the list of words
                    not to be titlecased in chapter titles.
   -f, --formatted-code  Allow formatting in nf/fi code blocks and Synopsis line.
@@ -86,8 +90,10 @@ EOT
 }
 
 GetOptions(
-	'p|paste-after=s@'	=> sub{ add_paste_file('after', split /:/, $_[1]) },
-	'P|paste-before=s@'	=> sub{ add_paste_file('before', split /:/, $_[1]) },
+	'paste-after=s@'		=> sub{ add_paste_file('after', split /:/, $_[1]) },
+	'paste-before=s@'		=> sub{ add_paste_file('before', split /:/, $_[1]) },
+	'p|paste-section-after=s@'	=> sub{ add_paste_file('after', split(/:/, $_[1]), 1) },
+	'P|paste-section-before=s@'	=> sub{ add_paste_file('before', split(/:/, $_[1]), 1) },
 	'c|comment:s'		=> sub{ $add_comment = (length $_[1])  ? $_[1] : DEFAULT_COMMENT },
 	'f|formatted-code'	=> sub{ $code_formatting = 1 },
 	'w|word=s'		=> sub{ $words{ lc $_[1] } = $_[1] },
@@ -96,10 +102,10 @@ GetOptions(
 );
 
 sub add_paste_file ($$$) {
-	my ($op, $section, $filename) = @_;
+	my ($op, $section, $filename, $with_section) = @_;
 	die "file not readable: $filename"  unless (-f $filename && -r $filename);
 	my $addto = ($op eq 'after') ? \%paste_after_section : \%paste_before_section;
-	push @{ $addto->{$section} }, $filename;
+	push @{ $addto->{$section} }, [$filename, $with_section];
 }
 
 # Install postprocessing function for all output:
@@ -404,10 +410,10 @@ sub print_section_title    ($) { printf "\n%s%s\n\n", $section_prefix, strip_htm
 sub print_subsection_title ($) { printf "\n%s%s\n\n", $subsection_prefix, strip_html($_[0]) }
 
 sub paste_file {
-	my $filename = shift;
+	my ($filename, $with_section) = @_;
 	return 0 unless -r $filename;
 
-	if ($filename =~ m/^(?:[a-zA-Z0-9_\-]+\/)*(.+)\.md$/) {
+	if ($with_section && $filename =~ m/^(?:[a-zA-Z0-9_\-]+\/)*(.+)\.md$/) {
 		my $section_title = $1;
 		print_section_title $section_title;
 	}
@@ -500,7 +506,7 @@ printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
 if (defined $paste_after_section{'HEADLINE'}) {
-	paste_file($_)  foreach (@{ $paste_after_section{'HEADLINE'} });
+	paste_file(@$_)  foreach (@{ $paste_after_section{'HEADLINE'} });
 	undef $paste_after_section{'HEADLINE'};
 }
 
@@ -544,11 +550,11 @@ do {
 	} elsif (section_title) {
 		# new section begins
 		if (defined $paste_after_section{$prev_section}) {
-			paste_file($_)  foreach (@{ $paste_after_section{$prev_section} });
+			paste_file(@$_)  foreach (@{ $paste_after_section{$prev_section} });
 			undef $paste_after_section{$prev_section};
 		}
 		if (defined $paste_before_section{$section}) {
-			paste_file($_)  foreach (@{ $paste_before_section{$section} });
+			paste_file(@$_)  foreach (@{ $paste_before_section{$section} });
 			undef $paste_before_section{$section};
 		}
 		print_section_title titlecase($section)
@@ -570,7 +576,7 @@ do {
 
 
 foreach (values %paste_before_section)
-	{ paste_file($_)  foreach (@$_) }
+	{ paste_file(@$_)  foreach (@$_) }
 foreach (values %paste_after_section)
-	{ paste_file($_)  foreach (@$_) }
+	{ paste_file(@$_)  foreach (@$_) }
 
