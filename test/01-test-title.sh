@@ -21,4 +21,11 @@ assertRegex "$(conv pkg.roff | head -n $check_n_lines)" "/xyz testing package v?
 	"The package name (differing from the actual program name) was not included in the first few lines!"
 
 
+output_nover="$(conv noversion.roff | head -n $check_n_lines)"
+[ -z "$output_nover" ] && fail "Parsing noversion.roff failed!"
+
+assertRegex "$output_nover" "!/Version v?$TESTPROG_VERSION/i" \
+	"The first few lines contain a version string even when the input .TH line had no version!"
+
+
 success

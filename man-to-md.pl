@@ -468,7 +468,8 @@ sub titlecase {
 sub read_version {
 	if ($_[0] eq '') {
 		# no version string found
-		return 0
+		$version = '';
+		return 1
 	}
 
 	if ($_[0] =~ m/^(?:$progname(?: \(\d\))?\s+)(?:v|ver\.?|version)? ?(\d[\w\.\-\+]*)$/i) {
@@ -487,9 +488,9 @@ sub read_version {
 
 # eat first line, extract progname, version, and man section
 nextline()
-	and m/^\.TH ($re_token) ($re_token) ($re_token) ($re_token)/
+	and m/^\.TH ($re_token) ($re_token) ($re_token)(?: ($re_token))?/
 	and (($progname, $mansection, $verdate) = (lc(qtok($1)), qtok($2), qtok($3)))
-	and read_version(qtok($4))
+	and read_version(qtok($4 // ''))
 	or die "could not parse first line";
 
 # skip NAME headline, extract description
