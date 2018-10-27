@@ -2,7 +2,7 @@
 
 # man-to-md(1) - Converts nroff man pages to Markdown
 
-Version 0.9.0, May 2018
+Version 0.10.0, October 2018
 
 <pre><code>$ <b>man-to-md.pl</b> [<i>OPTIONS</i>] &lt;<i>manpage.roff</i> ><i>output.md</i></code></pre>
 
