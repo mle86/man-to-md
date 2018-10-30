@@ -231,7 +231,11 @@ sub strip_highlighting {
 
 sub strip_html {
 	# avoid accidental html output:
-	my @result = map{ s/</&lt;/g; $_ } ($#_ >= 0 ? @_ : ($_));
+	my @result = map{
+			s/</&lt;/g;
+			s/>/&gt;/g;
+		$_ }
+		($#_ >= 0 ? @_ : ($_));
 	wantarray ? @result : $result[0]
 }
 

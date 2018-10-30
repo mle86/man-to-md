@@ -3,7 +3,7 @@
 
 
 LT='&lt;'  # plain "<" is NOT acceptable!
-GT='(?:>|&gt;)'
+GT='&gt;'
 # fake program name is "a<b>"
 PROG="a${LT}b${GT}"
 PLAINPROG="a<b>"
