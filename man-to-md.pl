@@ -127,7 +127,7 @@ sub {
 
 	# URLs:
 	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
-	s/^(.+[^)>])(?:$)\n^(?:[\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
+	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
 	# Line breaks;
 	s/\n *${replacement_token}#BRK#/  \n/g;
