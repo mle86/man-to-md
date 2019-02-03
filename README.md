@@ -2,9 +2,9 @@
 
 # man-to-md(1) - Converts nroff man pages to Markdown
 
-Version 0.10.0, October 2018
+Version 0.11.1, February 2019
 
-<pre><code>$ <b>man-to-md.pl</b> [<i>OPTIONS</i>] &lt;<i>manpage.roff</i> ><i>output.md</i></code></pre>
+<pre><code>$ <b>man-to-md.pl</b> [<i>OPTIONS</i>] &lt;<i>manpage.roff</i> &gt;<i>output.md</i></code></pre>
 
 # Description
 
@@ -83,5 +83,5 @@ https://github.com/mle86/man-to-md
 # Author
 
 Maximilian Eul
-&lt;[maximilian@eul.cc](mailto:maximilian@eul.cc)>
+&lt;[maximilian@eul.cc](mailto:maximilian@eul.cc)&gt;
 (https://github.com/mle86)
