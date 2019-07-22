@@ -34,6 +34,7 @@ use constant {
 
 my ($section, $subsection, $prev_section);
 my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock, $text_indent, $start_indented_line);
+my ($in_urltitle);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -130,6 +131,7 @@ sub {
 	s#(<(synopsis(?:Formatted)?)>.*</\2>)#postprocess_synopsis($1)#se;
 
 	# URLs:
+	s/(\[[^\]]+) (?=\]\((?:$re_urlprefix|mailto:))/$1/g;  # remove trailing spaces in link titles
 	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}($re_url)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
 	# Line breaks;
@@ -392,6 +394,14 @@ sub reformat_syntax {
 			my $indent = (' ' x (2 + (4 * ($text_indent - 1))));
 			s/^/$indent/;
 		}
+	} elsif (m/\.UR ($re_url)\s*$/) {
+		$in_urltitle = $1;
+		$_ = '['
+	} elsif (defined $in_urltitle && m/\.UE(?: (\S*)\s*)?$/) {
+		$_ = "]($in_urltitle)" . ($1 // '') . "\n";
+		undef $in_urltitle
+	} elsif (defined $in_urltitle) {
+		s/[\r\n]+/ /g
 	}
 }
 

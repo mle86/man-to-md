@@ -44,6 +44,9 @@
 * `.de`–`..`  
 	Macro definition (ignored).
 
+* <code>.UM <i>url</i></code>–`.UE`
+    URL link.
+
 * `.ig`–`..`  
     Block comment (ignored).
 

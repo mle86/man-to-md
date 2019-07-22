@@ -2,6 +2,7 @@
 . $(dirname "$0")/init.sh
 
 output="$(conv urls.roff )"
+macroOutput="$(printf '%s' "$output" | get_section 'GROFF MACROS')"
 
 
 # The URL conversion feature should pick up on lines that contain only an URL in parentheses
@@ -71,6 +72,13 @@ assertRegex "$output" "/with a different\\s+\\[link title\\]\\($intlnk\\)!/msi" 
 	"Internal link with custom title was not converted correctly!"
 assertRegex "$output" "/followed by an angle bracket:\\s+\\[$intlnk\\]\\($intlnk\\)\\s+&lt;other stuff/" \
 	"Internal link (without custom title, but followed by an angle bracket) was not converted correctly!"
+
+
+# .UM/.UE groff macros:
+umUrl='https:\/\/test\.123456\/foo-bar\/09124'
+umText='embedded\s+link'
+assertRegex "$macroOutput" "/have an\\s+\\[$umText\\]\\($umUrl\\)\\.\\s+EOL1/ms" \
+	".UM/.UE url macros have not been converted correctly!"
 
 
 success
