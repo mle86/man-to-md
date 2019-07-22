@@ -23,5 +23,8 @@ assertRegex "$output" "/nbsp2(?: |&nbsp;)eol2/" \
 assertRegex "$output" "/nbsp3(?: |&nbsp;)eol/" \
 	'Conversion of "\~" to NBSP failed!'
 
+assertRegex "$output" "/zwsp(?:​|&#x200b;|&#8203;)eol/" \
+	'Conversion of "\:" to ZWSP failed!'
+
 
 success

@@ -232,7 +232,8 @@ sub strip_highlighting {
 #	s/\\(.)/$1/g;
 
 	# non-printing zero-width characters, used to mask strings that are not commands:
-	s/\\[&\):]//g;
+	s/\\[&\)]//g;
+	s/\\:/​/g;  # ZWSP
 	# other unprintables and control characters:
 	s/\\[\/,]//g;
 
