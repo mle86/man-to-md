@@ -180,6 +180,11 @@ sub nextline {
 			redo;
 		}
 
+		# Keep reading if line ends with “\<NEWLINE>”, it's not truly finished yet:
+		while (!eof && s/((?:\\{2})*)\\[\r\n]+$/$1/) {
+			$_ .= <>;
+		}
+
 	}} while (line_empty() && !$keep_blanklines);
 	1
 }
