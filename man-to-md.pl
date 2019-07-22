@@ -38,7 +38,11 @@ my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 my $subsection_prefix  = '## ';
-my $re_token = '(?:"(?:\\.|[^"])*+"|(?:\\\\.|[^\s"])(?:\\\\.|\S)*+)';  # matches one token, with or without "enclosure".
+
+my $re_token = qr/(?:"(?:\.|[^"])*+"|(?:\\.|[^\s"])(?:\\.|\S)*+)/;  # matches one token, with or without "enclosure".
+my $re_urlprefix = qr/(?:https?:|s?ftp:|www)/;
+my $re_url = qr/${re_urlprefix}.+?/;
+my $re_email = qr/(?:\w[\w\-_\.\+]*@[\w\-_\+\.]+?\.[\w\-]+)/;
 
 my $replacement_token = "\001kXXfQ6Yd" . int(10000 * rand);
 
@@ -126,8 +130,7 @@ sub {
 	s#(<(synopsis(?:Formatted)?)>.*</\2>)#postprocess_synopsis($1)#se;
 
 	# URLs:
-	my $re_urlprefix = '(?:https?:|s?ftp:|www)';
-	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}(${re_urlprefix}.+?)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
+	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}($re_url)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
 
 	# Line breaks;
 	s/\n *${replacement_token}#BRK#/  \n/g;
@@ -337,7 +340,7 @@ sub reformat_syntax {
 
 	if ($section eq 'AUTHOR' || $section eq 'AUTHORS') {
 		# convert e-mail address to link:
-		s/\b(\w[\w\-_\.\+]*@[\w\-_\+\.]+?\.[\w\-]+)\b/[$1](mailto:$1)/u;
+		s/\b($re_email)\b/[$1](mailto:$1)/u;
 	}
 
 	# item lists and description lists:
