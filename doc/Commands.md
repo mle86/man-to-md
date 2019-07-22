@@ -58,7 +58,7 @@
 
 * `\"`/`.\"`  Line comment (ignored).
 * <code>\\&nbsp;</code>  Non-breaking space.
-* `\&` Non-printing zero-width character (ignored).
+* `\&`/`\:` Non-printing breaking zero-width character (ignored).
 * `\(lq` “
 * `\(rq` ”
 * `\(oq` ‘
