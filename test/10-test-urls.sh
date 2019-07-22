@@ -80,5 +80,11 @@ umText='embedded\s+link'
 assertRegex "$macroOutput" "/have an\\s+\\[$umText\\]\\($umUrl\\)\\.\\s+EOL1/ms" \
 	".UM/.UE url macros have not been converted correctly!"
 
+# .MT/.ME groff macros:
+mtText='e-mail\s+links'
+mtAddr='author3@dummy\.test'
+assertRegex "$macroOutput" "/another syntax for\\s+\\[$mtText\\]\\(mailto:$mtAddr\\)!\\s+EOL2/ms" \
+	".MT/.ME email macros have not been converted correctly!"
+
 
 success

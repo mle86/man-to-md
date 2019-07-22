@@ -47,6 +47,9 @@
 * <code>.UM <i>url</i></code>–`.UE`
     URL link.
 
+* <code>.MT <i>address</i></code>–`.ME`
+    E-mail link.
+
 * `.ig`–`..`  
     Block comment (ignored).
 

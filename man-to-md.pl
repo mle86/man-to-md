@@ -34,7 +34,7 @@ use constant {
 
 my ($section, $subsection, $prev_section);
 my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock, $text_indent, $start_indented_line);
-my ($in_urltitle);
+my ($in_urltitle, $in_mailtitle);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
@@ -397,10 +397,16 @@ sub reformat_syntax {
 	} elsif (m/\.UR ($re_url)\s*$/) {
 		$in_urltitle = $1;
 		$_ = '['
+	} elsif (m/\.MT ($re_email)\s*$/) {
+		$in_mailtitle = $1;
+		$_ = '['
 	} elsif (defined $in_urltitle && m/\.UE(?: (\S*)\s*)?$/) {
 		$_ = "]($in_urltitle)" . ($1 // '') . "\n";
 		undef $in_urltitle
-	} elsif (defined $in_urltitle) {
+	} elsif (defined $in_mailtitle && m/\.ME(?: (\S*)\s*)?$/) {
+		$_ = "](mailto:$in_mailtitle)" . ($1 // '') . "\n";
+		undef $in_mailtitle
+	} elsif (defined $in_urltitle || defined $in_mailtitle) {
 		s/[\r\n]+/ /g
 	}
 }
