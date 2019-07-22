@@ -193,7 +193,7 @@ sub line_empty { m/^\s*$/ }
 
 sub strip_highlighting {
 	# remove remaining highlighting:
-	s/(?:^\.[BIR]{1,2} |\\f[BIR])//g;
+	s/(?:^\.[BIR]{1,2} |\\f[BIR])//g  unless $_[0];
 
 	# paragraphs:
 	if (m/^\.br/i) {
@@ -325,20 +325,29 @@ sub reformat_syntax {
 	}
 
 	# bold and italics:
-	s/\\fB(.+?)\\fR/**$1**/g;
-	s/\\fI(.+?)\\fR/*$1*/g;
+	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
+	s/\\fB(.{2,}?|[^\*])\\fR/**$1**/g;
+	s/\\fI(.{2,}?|[^\*])\\fR/*$1*/g;
 
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
 	# to get rid of the token doublequote enclosures.
-	s/^\.B +(.+)/'**' . join(' ', tokenize($1)) . '**'/ge;
-	s/^\.I +(.+)/'*' . join(' ', tokenize($1)) . '*'/ge;
+	s/^\.B +([^\*].*)/'**' . join(' ', tokenize($1)) . '**'/ge;
+	s/^\.I +([^\*].*)/'*' . join(' ', tokenize($1)) . '*'/ge;
 
 	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3)/ge;
 
 	# other formatting:
-	strip_highlighting();
+	strip_highlighting(1);
+
+	# escape html tags:
 	$_ = strip_html($_);
+
+	# process highlighting special cases:
+	s#\\fB(\*)\\fR#<b>$1</b>#g;
+	s#\\fI(\*)\\fR#<i>$1</i>#g;
+	s#^\.B +(\*.*)#'<b>' . join(' ', tokenize($1)) . '</b>'#ge;
+	s#^\.I +(\*.*)#'<i>' . join(' ', tokenize($1)) . '</i>'#ge;
 
 	if ($section eq 'AUTHOR' || $section eq 'AUTHORS') {
 		# convert e-mail address to link:

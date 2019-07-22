@@ -26,5 +26,10 @@ assertRegex "$output" "/nbsp3(?: |&nbsp;)eol/" \
 assertRegex "$output" "/zwsp(?:​|&#x200b;|&#8203;)eol/" \
 	'Conversion of "\:" to ZWSP failed!'
 
+assertRegex "$output" "/bold-asterisk:\\s+<b>\\*<\\/b>\\./" \
+	"Conversion of bold asterisk (\\fB*\\fR) failed!"
+assertRegex "$output" "/italic-asterisk:\\s+<i>\\*<\\/i>\\./" \
+	"Conversion of italic asterisk (\\fI*\\fR) failed!"
+
 
 success
