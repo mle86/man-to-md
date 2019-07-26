@@ -31,5 +31,8 @@ assertRegex "$output" "/bold-asterisk:\\s+<b>\\*<\\/b>\\./" \
 assertRegex "$output" "/italic-asterisk:\\s+<i>\\*<\\/i>\\./" \
 	"Conversion of italic asterisk (\\fI*\\fR) failed!"
 
+assertRegex "$output" "/unicode-dot:\\s+(?:&#9679;|&#x25cf;|●)\\./" \
+	"Conversion of Unicode codepoints failed!"
+
 
 success

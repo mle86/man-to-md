@@ -219,6 +219,9 @@ sub strip_highlighting {
 	s/\\\(en/–/g;
 	s/\\\(em/—/g;
 
+	# unicode characters:
+	s/\\\[u0*?([0-9a-fA-F]+)\]/ chr hex $1 /ge  && utf8::encode($_);
+
 	s/\\[ ~]/&nbsp;/g;  # non-breakable space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
 

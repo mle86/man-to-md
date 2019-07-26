@@ -73,4 +73,5 @@
 * `\(hy` -
 * `\(en` –
 * `\(em` —
+* <code>\\[u<i>XXXX</i>]</code> Unicode characters
 
