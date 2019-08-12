@@ -209,8 +209,11 @@ sub strip_highlighting {
 	s/\\\(rq/”/g;
 	s/\\\(oq/‘/g;
 	s/\\\(cq/’/g;
-	s/\\\(dq/"/g;
+	s/\\\(ga/`/g;
 	s/\\\(aq/'/g;
+	s/\\\(dq/"/g;
+	s/\\\(fm/′/g;
+	s/\\\(sd/″/g;
 	s/\\\(Fo/«/g;
 	s/\\\(Fc/»/g;
 	s/\\\(fo/‹/g;
@@ -218,6 +221,52 @@ sub strip_highlighting {
 	s/\\\(hy/-/g;
 	s/\\\(en/–/g;
 	s/\\\(em/—/g;
+	s/\\\(ha/^/g;
+	s/\\\(lh/☜/g;
+	s/\\\(rh/☞/g;
+
+	s/\\\(at/@/g;
+	s/\\\(bu/·/g;
+	s/\\\(ci/○/g;
+	s/\\\(CR/↵/g;
+	s/\\\(de/°/g;
+	s/\\\(dg/†/g;
+	s/\\\(dd/‡/g;
+	s/\\\(lz/◊/g;
+	s/\\\(mc/µ/g;
+	s/\\\(OK/✓/g;
+	s/\\\(ps/¶/g;
+	s/\\\(ru/_/g;
+	s/\\\(sc/§/g;
+	s/\\\(sh/#/g;
+	s/\\\(sq/□/g;
+	s/\\\(ti/~/g;
+
+	s/\\\(ct/¢/g;
+	s/\\\(Do/\$/;
+	s/\\\([Ee]u/€/g;
+	s/\\\(Ye/¥/g;
+	s/\\\(Po/£/g;
+	s/\\\(Cs/¤/g;
+
+	s/\\\(co/©/g;
+	s/\\\(rg/®/g;
+	s/\\\(tm/™/g;
+
+	s/\\\(ff/ﬀ/g;
+	s/\\\(fi/ﬁ/g;
+	s/\\\(Fi/ﬃ/g;
+	s/\\\(fl/ﬂ/g;
+	s/\\\(Fl/ﬄ/g;
+	s/\\\(12/½/g;
+	s/\\\(14/¼/g;
+	s/\\\(34/¾/g;
+	s/\\\(38/⅜/g;
+	s/\\\(58/⅝/g;
+	s/\\\(78/⅞/g;
+	s/\\\(S1/¹/g;
+	s/\\\(S2/²/g;
+	s/\\\(S3/³/g;
 
 	# unicode characters:
 	s/\\\[u0*?([0-9a-fA-F]+)\]/ chr hex $1 /ge  && utf8::encode($_);

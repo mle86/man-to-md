@@ -15,6 +15,9 @@ GT='(?:>|&gt;)'
 assertRegex "$output" "/lq${LT}“${GT}/"  "$errmsg"
 assertRegex "$output" "/rq${LT}”${GT}/"  "$errmsg"
 assertRegex "$output" "/dq${LT}\"${GT}/" "$errmsg"
+assertRegex "$output" "/Eu${LT}€${GT}/" "$errmsg"
+assertRegex "$output" "/34${LT}¾${GT}/" "$errmsg"
+assertRegex "$output" "/co${LT}©${GT}/" "$errmsg"
 
 assertRegex "$output" "/nbsp(?: |&nbsp;)eol/" \
 	'Conversion of "\ " to NBSP failed!'
