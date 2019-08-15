@@ -29,10 +29,14 @@ assertRegex "$output" "/nbsp3(?: |&nbsp;)eol/" \
 assertRegex "$output" "/zwsp(?:​|&#x200b;|&#8203;)eol/" \
 	'Conversion of "\:" to ZWSP failed!'
 
-assertRegex "$output" "/bold-asterisk:\\s+<b>\\*<\\/b>\\./" \
+assertRegex "$output" "/bold-asterisk:\\s+<b>\\\\\\*<\\/b>\\./" \
 	"Conversion of bold asterisk (\\fB*\\fR) failed!"
-assertRegex "$output" "/italic-asterisk:\\s+<i>\\*<\\/i>\\./" \
+assertRegex "$output" "/italic-asterisk:\\s+<i>\\\\\\*<\\/i>\\./" \
 	"Conversion of italic asterisk (\\fI*\\fR) failed!"
+assertRegex "$output" "/bold-underscore:\\s+<b>\\\\_<\\/b>\\./" \
+	"Conversion of bold underscore (\\fB_\\fR) failed!"
+assertRegex "$output" "/italic-underscore:\\s+<i>\\\\_<\\/i>\\./" \
+	"Conversion of italic underscore (\\fI_\\fR) failed!"
 
 assertRegex "$output" "/unicode-dot:\\s+(?:&#9679;|&#x25cf;|●)\\./" \
 	"Conversion of Unicode codepoints failed!"
