@@ -378,8 +378,8 @@ sub reformat_syntax {
 
 	# bold and italics:
 	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
-	s/\\fB(.{2,}?|[^\*_])\\fR/**$1**/g;
-	s/\\fI(.{2,}?|[^\*_])\\fR/_$1_/g;
+	s/\\fB([^\*_]|.{2,}?)\\fR/**$1**/g;
+	s/\\fI([^\*_]|.{2,}?)\\fR/_$1_/g;
 
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
