@@ -396,8 +396,8 @@ sub reformat_syntax {
 	$_ = strip_html($_);
 
 	# process highlighting special cases:
-	s#\\fB(\*)\\fR#<b>$1</b>#g;
-	s#\\fI(\*)\\fR#<i>$1</i>#g;
+	s#\\fB(\*)\\fR#<b>\\$1</b>#g;
+	s#\\fI(\*)\\fR#<i>\\$1</i>#g;
 	s#^\.B +(\*.*)#'<b>' . join(' ', tokenize($1)) . '</b>'#ge;
 	s#^\.I +(\*.*)#'<i>' . join(' ', tokenize($1)) . '</i>'#ge;
 
