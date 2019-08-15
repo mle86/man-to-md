@@ -7,7 +7,7 @@ output=" $output "  # extra spaces for liberal \s checks instead of (?:\s|$)
 
 # regex components:
 B='\*\*'
-I='\*'
+I='_'
 SP='(?: |&nbsp;|\s)'
 KEEP_B="(?:${SP}+|${B}${SP}+${B})"  # space between two .B areas, we don't care if the space itself it bold as well
 KEEP_I="(?:${SP}+|${I}${SP}+${I})"  # space between two .I areas, we don't care if the space itself is italic as well

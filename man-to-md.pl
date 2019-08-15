@@ -379,13 +379,13 @@ sub reformat_syntax {
 	# bold and italics:
 	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
 	s/\\fB(.{2,}?|[^\*_])\\fR/**$1**/g;
-	s/\\fI(.{2,}?|[^\*_])\\fR/*$1*/g;
+	s/\\fI(.{2,}?|[^\*_])\\fR/_$1_/g;
 
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
 	# to get rid of the token doublequote enclosures.
 	s/^\.B +([^\*].*)/'**' . join(' ', tokenize($1)) . '**'/ge;
-	s/^\.I +([^\*].*)/'*' . join(' ', tokenize($1)) . '*'/ge;
+	s/^\.I +([^\*].*)/'_' . join(' ', tokenize($1)) . '_'/ge;
 
 	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3)/ge;
 
@@ -517,7 +517,7 @@ sub alternating_highlighting {
 		if ($highlightkey eq 'R') {
 			$_
 		} elsif ($highlightkey eq 'I') {
-			'*' . $_ . '*'
+			'_' . $_ . '_'
 		} elsif ($highlightkey eq 'B') {
 			'**' . $_ . '**'
 		}
