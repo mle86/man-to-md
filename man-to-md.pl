@@ -193,7 +193,7 @@ sub line_empty { m/^\s*$/ }
 
 sub strip_highlighting {
 	# remove remaining highlighting:
-	s/(?:^\.[BIR]{1,2} |\\f[BIRP123])//g  unless $_[0];
+	s/(?:^\.[BIR]{1,2} |\\f[BIRP1234])//g  unless $_[0];
 
 	# paragraphs:
 	if (m/^\.br/i) {
@@ -380,6 +380,7 @@ sub reformat_syntax {
 	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
 	s/\\f[B3]([^\*_]|.{2,}?)\\f[RP1]/**$1**/g;
 	s/\\f[I2]([^\*_]|.{2,}?)\\f[RP1]/_$1_/g;
+	s/\\f4([^\*_]|.{2,}?)\\f[RP1]/**_$1_**/g;
 
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
@@ -398,6 +399,7 @@ sub reformat_syntax {
 	# process highlighting special cases:
 	s#\\f[B3](\*|_)\\f[RP1]#<b>\\$1</b>#g;
 	s#\\f[I2](\*|_)\\f[RP1]#<i>\\$1</i>#g;
+	s#\\f4(\*|_)\\f[RP1]#<b><i>\\$1</i></b>#g;
 	s#^\.B +(\*.*)#'<b>' . join(' ', tokenize($1)) . '</b>'#ge;
 	s#^\.I +(\*.*)#'<i>' . join(' ', tokenize($1)) . '</i>'#ge;
 
@@ -464,6 +466,7 @@ sub reformat_syntax {
 sub reformat_html {
 	s#\\f[B3](.+?)\\f[RP1]#<b>$1</b>#g;
 	s#\\f[I2](.+?)\\f[RP1]#<i>$1</i>#g;
+	s#\\f4(.+?)\\f[RP1]#<b><i>$1</i></b>#g;
 	s#^\.B +(.+)#<b>$1</b>#g;
 	s#^\.I +(.+)#<i>$1</i>#g;
 }
