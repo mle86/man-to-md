@@ -52,6 +52,7 @@ my %paste_before_section = ( );
 my $code_formatting = 0;
 my $add_comment;
 
+my %strings = ( );
 my %words = ( );
 my %stopwords = map { $_ => 1 } (qw(
 	a an the
@@ -285,7 +286,9 @@ sub strip_highlighting {
 	# other unprintables and control characters:
 	s/\\[\/,]//g;
 
-
+	# unknown \*X or \*(XX string usages not previously defined with .ds:
+	s/\\\*[^\s\(]//g;
+	s/\\\*\([^\s]{2}//g;
 }
 
 sub strip_html {
@@ -340,6 +343,12 @@ sub reformat_syntax {
 	if (m/^\.(?:PD|hy|ad|\s|$)/) {
 		$_ = '';
 		return
+	}
+
+	# replace .ds strings:
+	for my $sname (keys %strings) {
+		if    (length $sname == 1) { s/\\\*$sname/$strings{$sname}/g; }
+		elsif (length $sname == 2) { s/\\\*\($sname/$strings{$sname}/g; }
 	}
 
 	# raw block markers:
@@ -639,6 +648,9 @@ do {
 	} elsif (subsection_title) {
 		# new subsection begins
 		print_subsection_title $subsection
+
+	} elsif (m/^\.ds +(\S{1,2}) +"?(.+)$/) {
+		$strings{ $1 } = $2
 
 	} elsif (m/^\.de\b/) {
 		# macro definition -- skip completely
