@@ -193,7 +193,7 @@ sub line_empty { m/^\s*$/ }
 
 sub strip_highlighting {
 	# remove remaining highlighting:
-	s/(?:^\.[BIR]{1,2} |\\f[BIR])//g  unless $_[0];
+	s/(?:^\.[BIR]{1,2} |\\f[BIRP])//g  unless $_[0];
 
 	# paragraphs:
 	if (m/^\.br/i) {
