@@ -18,6 +18,9 @@ IBS="(?:${SP}+${I}${SP}*${B}${SP}*|${SP}*${I}${SP}+${B}${SP}*|${SP}*${I}${SP}*${
 # 0 \fBinline bold\fR 0 \fIinline italics\fR 0
 assertRegex "$output" "/0\\s+${B}inline bold${B}\\s+0\\s+${I}inline italics${I}\\s+0/" \
 	"Inline highlighting (\\fX) did not work as expected!"
+# 2 \fBinline bold\fP 2 \fIinline italics\fP 2
+assertRegex "$output" "/2\\s+${B}inline bold${B}\\s+2\\s+${I}inline italics${I}\\s+2/" \
+	"Inline highlighting (\\fX) did not work as expected!"
 
 # 1
 # .B "bold"
