@@ -378,8 +378,8 @@ sub reformat_syntax {
 
 	# bold and italics:
 	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
-	s/\\fB([^\*_]|.{2,}?)\\fR/**$1**/g;
-	s/\\fI([^\*_]|.{2,}?)\\fR/_$1_/g;
+	s/\\fB([^\*_]|.{2,}?)\\f[RP]/**$1**/g;
+	s/\\fI([^\*_]|.{2,}?)\\f[RP]/_$1_/g;
 
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
@@ -396,8 +396,8 @@ sub reformat_syntax {
 	$_ = strip_html($_);
 
 	# process highlighting special cases:
-	s#\\fB(\*|_)\\fR#<b>\\$1</b>#g;
-	s#\\fI(\*|_)\\fR#<i>\\$1</i>#g;
+	s#\\fB(\*|_)\\f[RP]#<b>\\$1</b>#g;
+	s#\\fI(\*|_)\\f[RP]#<i>\\$1</i>#g;
 	s#^\.B +(\*.*)#'<b>' . join(' ', tokenize($1)) . '</b>'#ge;
 	s#^\.I +(\*.*)#'<i>' . join(' ', tokenize($1)) . '</i>'#ge;
 
@@ -462,8 +462,8 @@ sub reformat_syntax {
 }
 
 sub reformat_html {
-	s#\\fB(.+?)\\fR#<b>$1</b>#g;
-	s#\\fI(.+?)\\fR#<i>$1</i>#g;
+	s#\\fB(.+?)\\f[RP]#<b>$1</b>#g;
+	s#\\fI(.+?)\\f[RP]#<i>$1</i>#g;
 	s#^\.B +(.+)#<b>$1</b>#g;
 	s#^\.I +(.+)#<i>$1</i>#g;
 }
