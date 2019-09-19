@@ -21,6 +21,9 @@ assertRegex "$output" "/0\\s+${B}inline bold${B}\\s+0\\s+${I}inline italics${I}\
 # 2 \fBinline bold\fP 2 \fIinline italics\fP 2
 assertRegex "$output" "/2\\s+${B}inline bold${B}\\s+2\\s+${I}inline italics${I}\\s+2/" \
 	"Inline highlighting (\\fX) did not work as expected!"
+# 3 \f3inline bold\f1 3 \f2inline italics\f1 3
+assertRegex "$output" "/3\\s+${B}inline bold${B}\\s+3\\s+${I}inline italics${I}\\s+3/" \
+	"Inline highlighting (\\f1,\\f2,\\f3) did not work as expected!"
 
 # 1
 # .B "bold"
