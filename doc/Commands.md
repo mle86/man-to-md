@@ -12,8 +12,8 @@
 	alternating with each token/word.
 	(Line will be tokenized.)
 
-* `\fB`, `\fI`, `\fR`  
-	Changes output mode to bold/italics/normal.
+* `\fB`/`\f3`, `\fI`/`\f2`, `\f4`, `\fR`/`\fP`/`\f1`  
+	Changes output mode to bold/italics/both/normal.
 	(In-text.)
 
 * `.SH`  
@@ -31,8 +31,8 @@
 	Begin of a list.
 
 * `.RS`–`.RE`  
-    Increased list indentation level.
-    Can be used for sub-lists.
+	Increased list indentation level.
+	Can be used for sub-lists.
 
 * `.LP`/`.P`/`.PP`  
 	One blank line.
@@ -44,14 +44,17 @@
 * `.de`–`..`  
 	Macro definition (ignored).
 
+* <code>.ds <i>code</i> <i>replacement</i></code>  
+	String definition.
+
 * <code>.UM <i>url</i></code>–`.UE`
-    URL link.
+	URL link.
 
 * <code>.MT <i>address</i></code>–`.ME`
-    E-mail link.
+	E-mail link.
 
 * `.ig`–`..`  
-    Block comment (ignored).
+	Block comment (ignored).
 
 
 # Known nroff Escape Sequences:

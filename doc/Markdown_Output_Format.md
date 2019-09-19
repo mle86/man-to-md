@@ -68,7 +68,7 @@ we're using [this trick](https://stackoverflow.com/a/20885980) instead:
 ## Text Formatting
 
 * Bold text (from `.B` or `\fR`) will be formatted with `**`.
-* Italic text (from `.I` or `\fI`) will be formatted with `*`.
+* Italic text (from `.I` or `\fI`) will be formatted with `_`.
 
 
 ## Lists
