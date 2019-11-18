@@ -18,7 +18,7 @@ to Markdown README files.
 # Options
 
 
-* **-p**, **--paste-after** _SECTION_:_FILENAME_  
+* **-p**, **--paste-section-after** _SECTION_:_FILENAME_  
   Instructs the program to attach a Markdown file
   after the section named _SECTION_
   has been completely written to the output.
@@ -29,11 +29,15 @@ to Markdown README files.
   as their top-level section title.  
   This option can be supplied more than once.
   Multiple files for the same section will be attached in the options' order.
-* **-P**, **--paste-before** _SECTION_:_FILENAME_  
-  Like **--paste-after**,
+* **-P**, **--paste-section-before** _SECTION_:_FILENAME_  
+  Like **--paste-section-after**,
   but attaches the file contents
   to the output
   just _before_ the named section is written.
+* **--paste-after** _SECTION_:_FILENAME_  
+  Like **--paste-section-after**, but does not add a section title.
+* **--paste-before** _SECTION_:_FILENAME_  
+  Like **--paste-section-before**, but does not add a section title.
 * **-c**, **--comment** [_COMMENT_]  
   Adds an invisible comment as first line.
   Without the argument, it uses this default comment:  

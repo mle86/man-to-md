@@ -18,7 +18,7 @@ man page files
 to Markdown README files.
 .SH OPTIONS
 .TP
-\fB\-p\fR, \fB\-\-paste\-after\fR \fISECTION\fR:\fIFILENAME\fR
+\fB\-p\fR, \fB\-\-paste\-section\-after\fR \fISECTION\fR:\fIFILENAME\fR
 Instructs the program to attach a Markdown file
 after the section named \fISECTION\fR
 has been completely written to the output.
@@ -31,11 +31,17 @@ as their top-level section title.
 This option can be supplied more than once.
 Multiple files for the same section will be attached in the options' order.
 .TP
-\fB\-P\fR, \fB\-\-paste\-before\fR \fISECTION\fR:\fIFILENAME\fR
-Like \fB\-\-paste\-after\fR,
+\fB\-P\fR, \fB\-\-paste\-section\-before\fR \fISECTION\fR:\fIFILENAME\fR
+Like \fB\-\-paste\-section\-after\fR,
 but attaches the file contents
 to the output
 just \fIbefore\fR the named section is written.
+.TP
+\fB\-\-paste-after\fR \fISECTION\fR:\fIFILENAME\fR
+Like \fB\-\-paste\-section\-after\fR, but does not add a section title.
+.TP
+\fB\-\-paste-before\fR \fISECTION\fR:\fIFILENAME\fR
+Like \fB\-\-paste\-section\-before\fR, but does not add a section title.
 .TP
 \fB\-c\fR, \fB\-\-comment\fR [\fICOMMENT\fR]
 Adds an invisible comment as first line.
