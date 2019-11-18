@@ -108,9 +108,11 @@ GetOptions(
 );
 
 sub add_paste_file ($$$) {
-	my ($op, $section, $filename, $with_section) = @_;
+	my ($op, $section, $filename, $add_section_title) = @_;
 	die "file not readable: $filename"  unless (-f $filename && -r $filename);
-	my $addto = ($op eq 'after') ? \%paste_after_section : \%paste_before_section;
+	my $addto = ($op eq 'after')
+		? \%paste_after_section
+		: \%paste_before_section;
 	push @{ $addto->{$section} }, {file => $filename, add_section_title => $add_section_title};
 }
 
