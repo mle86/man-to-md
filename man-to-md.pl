@@ -111,7 +111,7 @@ sub add_paste_file ($$$) {
 	my ($op, $section, $filename, $with_section) = @_;
 	die "file not readable: $filename"  unless (-f $filename && -r $filename);
 	my $addto = ($op eq 'after') ? \%paste_after_section : \%paste_before_section;
-	push @{ $addto->{$section} }, [$filename, $with_section];
+	push @{ $addto->{$section} }, {file => $filename, add_section_title => $add_section_title};
 }
 
 # Install postprocessing function for all output:
@@ -494,16 +494,16 @@ sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 sub print_section_title    ($) { printf "\n%s%s\n\n", $section_prefix, strip_html($_[0]) }
 sub print_subsection_title ($) { printf "\n%s%s\n\n", $subsection_prefix, strip_html($_[0]) }
 
-sub paste_file {
-	my ($filename, $with_section) = @_;
-	return 0 unless -r $filename;
+sub paste_file (%) {
+	my %args = @_;
+	return 0 unless -r $args{'file'};
 
-	if ($with_section && $filename =~ m/^(?:[a-zA-Z0-9_\-]+\/)*(.+)\.md$/) {
+	if ($args{'add_section_title'} && $args{'file'} =~ m/^(?:[a-zA-Z0-9_\-]+\/)*(.+)\.md$/) {
 		my $section_title = $1;
 		print_section_title $section_title;
 	}
 
-	open FH, "< $filename";
+	open FH, "< $args{'file'}";
 	local $/;
 	my $content = <FH>;
 	close FH;
@@ -592,7 +592,7 @@ printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
 if (defined $paste_after_section{'HEADLINE'}) {
-	paste_file(@$_)  foreach (@{ $paste_after_section{'HEADLINE'} });
+	paste_file(%$_)  foreach (@{ $paste_after_section{'HEADLINE'} });
 	undef $paste_after_section{'HEADLINE'};
 }
 
@@ -636,11 +636,11 @@ do {
 	} elsif (section_title) {
 		# new section begins
 		if (defined $paste_after_section{$prev_section}) {
-			paste_file(@$_)  foreach (@{ $paste_after_section{$prev_section} });
+			paste_file(%$_)  foreach (@{ $paste_after_section{$prev_section} });
 			undef $paste_after_section{$prev_section};
 		}
 		if (defined $paste_before_section{$section}) {
-			paste_file(@$_)  foreach (@{ $paste_before_section{$section} });
+			paste_file(%$_)  foreach (@{ $paste_before_section{$section} });
 			undef $paste_before_section{$section};
 		}
 		print_section_title titlecase($section)
@@ -665,7 +665,7 @@ do {
 
 
 foreach (values %paste_before_section)
-	{ paste_file(@$_)  foreach (@$_) }
+	{ paste_file(%$_)  foreach (@$_) }
 foreach (values %paste_after_section)
-	{ paste_file(@$_)  foreach (@$_) }
+	{ paste_file(%$_)  foreach (@$_) }
 
