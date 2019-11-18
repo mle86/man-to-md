@@ -122,6 +122,7 @@ sub {
 	return  if $pid > 0;
 	die "cannot fork: $!"  unless defined $pid;
 
+	# process entire output at once:
 	local $/;
 	local $_ = <STDIN>;
 
@@ -542,11 +543,11 @@ sub titlecase {
 	local $_ = $_[0];
 	my $re_word = '(\pL[\pL\']*)';
 
-	# lowercase stop words, keep case of known words, else titlecase
+	# lowercase stop words, keep casing of known words, else titlecase
 	s!$re_word!$stopwords{lc $1} ? lc($1) : ($words{lc $1} // ucfirst(lc($1)))!ge;
 	# capitalize first word following colon or semicolon
 	s/ ( [:;] \s+ ) $re_word /$1\u$2/x;
-	# title first word (even a stopword), except if it's a known word
+	# titlecase first word (even a stopword), except if it's a known word
 	s!^\s*$re_word!$words{lc $1} // ucfirst(lc($1))!e;
 
 	$_
@@ -593,6 +594,9 @@ printf "%s%s(%s)", $headline_prefix, strip_html($progname), $mansection;
 printf " - %s", strip_html($description)  if defined $description;
 print "\n\n";
 
+# Fake section name 'HEADLINE' can be used
+# to paste additional content right after the headline
+# (but not before)
 if (defined $paste_after_section{'HEADLINE'}) {
 	paste_file(%$_)  foreach (@{ $paste_after_section{'HEADLINE'} });
 	undef $paste_after_section{'HEADLINE'};
@@ -666,6 +670,8 @@ do {
 } while (nextline(1));
 
 
+# Paste section which haven't matched anything yet:
+# TODO: print warnings -- they probably should have gone somewhere else
 foreach (values %paste_before_section)
 	{ paste_file(%$_)  foreach (@$_) }
 foreach (values %paste_after_section)
