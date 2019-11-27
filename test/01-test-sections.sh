@@ -10,6 +10,11 @@ match_section_title () {
 	local sectiontitle="$3"
 	local regex=
 
+	if [ "$sectionlevel" -eq 2 ]; then
+		# Actually, .SS subsections get a third-lever Markdown headline now:
+		sectionlevel=3
+	fi
+
 	# We don't care about multiple spaces:
 	sectiontitle="$(printf '%s' "$sectiontitle" | perl -pe 's/ +/ \+/g')"
 	# We don't test for Titlecase here, there's a specialized test just for that:

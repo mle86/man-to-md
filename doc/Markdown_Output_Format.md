@@ -40,7 +40,7 @@ we're using [this trick](https://stackoverflow.com/a/20885980) instead:
 * All section titles (`.SH`)
   get converted to top-level headlines (`#`) as well.
 * All subsection titles (`.SS`)
-  get converted to second-level headlines (`##`).
+  get converted to third-level headlines (`###`).
 
 
 ## Line Breaks

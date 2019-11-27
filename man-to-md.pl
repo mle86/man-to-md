@@ -38,7 +38,7 @@ my ($in_urltitle, $in_mailtitle);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
-my $subsection_prefix  = '## ';
+my $subsection_prefix  = '### ';
 
 my $re_token = qr/(?:"(?:\.|[^"])*+"|(?:\\.|[^\s"])(?:\\.|\S)*+)/;  # matches one token, with or without "enclosure".
 my $re_urlprefix = qr/(?:https?:|s?ftp:|www)/;
