@@ -45,6 +45,7 @@ my $re_token = qr/(?:"(?:\.|[^"])*+"|(?:\\.|[^\s"])(?:\\.|\S)*+)/;  # matches on
 my $re_urlprefix = qr/(?:https?:|s?ftp:|www)/;
 my $re_url = qr/${re_urlprefix}.+?/;
 my $re_email = qr/(?:\w[\w\-_\.\+]*@[\w\-_\+\.]+?\.[\w\-]+)/;
+my $re_punctuation = qr/[\s,;\.\?!]/;
 
 my $replacement_token = "\001kXXfQ6Yd" . int(10000 * rand);
 
@@ -138,13 +139,13 @@ sub {
 
 	# URLs:
 	s/(\[[^\]]+) (?=\]\((?:$re_urlprefix|mailto:))/$1/g;  # remove trailing spaces in link titles
-	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}($re_url)\*{0,2}[\]\)])([\s,;\.\?!]*)$/[$1]($2)$3/gm;
+	s/^(.+)(?<!&gt;)(?<!>)(?:$)\n^(?:[\[\(]\*{0,2}($re_url)\*{0,2}[\]\)])($re_punctuation*)$/[$1]($2)$3/gm;
 
 	# Line breaks;
 	s/\n *${replacement_token}#BRK#/  \n/g;
 
 	# Internal links:
-	s=${replacement_token}#INTERNAL-LINK#\n?(?:((?!<|&lt;)[^\n]+)\n)?(?:<|&lt;)([^\n]+?)(?:>|&gt;)([\s,;\.\?!]*)$=
+	s=${replacement_token}#INTERNAL-LINK#\n?(?:((?!<|&lt;)[^\n]+)\n)?(?:<|&lt;)([^\n]+?)(?:>|&gt;)($re_punctuation*)$=
 		'[' . ($1 // $2) . '](' . $2 . ')' . $3
 		=gme;
 
