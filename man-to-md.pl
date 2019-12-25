@@ -126,6 +126,7 @@ sub {
 	# process entire output at once:
 	local $/;
 	local $_ = <STDIN>;
+	utf8::decode($_);
 
 	# merge code blocks:
 	s#(?:\n```\n```\n|</code></pre>\n<pre><code>|</code>\n<code>\n?)# #g;
@@ -153,6 +154,7 @@ sub {
 	# There should never be a linebreak after a NBSP, it defeats the entire purpose.
 	s/(?<=&nbsp;)\n//g;
 
+	utf8::encode($_);
 	print;
 	exit;
 }->();
@@ -498,8 +500,19 @@ sub qtok {
 sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 
 
-sub print_section_title    ($) { printf "\n%s%s\n\n", $section_prefix, strip_html($_[0]) }
-sub print_subsection_title ($) { printf "\n%s%s\n\n", $subsection_prefix, strip_html($_[0]) }
+sub print_section_title    ($) {
+	my $title = strip_html($_[0]);
+	my $output = sprintf "\n%s%s\n\n", $section_prefix, $title;
+	utf8::encode($output);
+	print $output
+}
+
+sub print_subsection_title ($) {
+	my $title = strip_html($_[0]);
+	my $output = sprintf "\n%s%s\n\n", $subsection_prefix, $title;
+	utf8::encode($output);
+	print $output
+}
 
 sub paste_file (%) {
 	my %args = @_;
