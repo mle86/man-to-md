@@ -2,9 +2,11 @@
 
 # man-to-md(1) - Converts nroff man pages to Markdown
 
-Version 0.14.4, December 2019
+Version 0.15.0, December 2019
 
 <pre><code>$ <b>man-to-md.pl</b> [<i>OPTIONS</i>] &lt;<i>manpage.roff</i> &gt;<i>output.md</i></code></pre>
+
+<a name="description"></a>
 
 # Description
 
@@ -14,6 +16,8 @@ and outputs Markdown.
 It can be used to automatically convert
 man page files
 to Markdown README files.
+
+<a name="options"></a>
 
 # Options
 
@@ -60,6 +64,8 @@ to Markdown README files.
 * **-V**, **--version**  
   Shows version and license information.
 
+<a name="standards"></a>
+
 # Standards
 
 This program understands many nroff commands and macros commonly used in man page files.
@@ -75,14 +81,20 @@ that are not standardized
 but seem to be fairly commonplace
 in man pages; see&nbsp;[doc/Input_Format.md](doc/Input_Format.md).
 
+<a name="license"></a>
+
 # License
 
 [GNU GPL v3](http://gnu.org/licenses/gpl.html)
+
+<a name="see-also"></a>
 
 # See Also
 
 Project homepage:
 https://github.com/mle86/man-to-md
+
+<a name="author"></a>
 
 # Author
 
