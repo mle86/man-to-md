@@ -191,6 +191,7 @@ sub nextline {
 		}
 
 	}} while (line_empty() && !$keep_blanklines);
+	utf8::decode($_);
 	1
 }
 
