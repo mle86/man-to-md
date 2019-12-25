@@ -148,6 +148,13 @@ sub {
 	s=${replacement_token}#INTERNAL-LINK#\n?(?:((?!<|&lt;)[^\n]+)\n)?(?:<|&lt;)([^\n]+?)(?:>|&gt;)($re_punctuation*)$=
 		'[' . ($1 // $2) . '](' . $2 . ')' . $3
 		=gme;
+	s=${replacement_token}#LINK-TO#([^#]+)#\n?(<|&lt;|“|‘|")([^\n]+?)((?:>|&gt;|”|’|")$re_punctuation*)$=
+		$2 . '[' . $3 . '](#' . section_slug($1) . ')' . $4
+		=gme;
+		# 1 target
+		# 2 prefix
+		# 3 link text
+		# 4 suffix
 
 	# Clean up remaining markers:
 	s/${replacement_token}#[\w\-]+#\n?//g;
@@ -177,6 +184,7 @@ sub nextline {
 
 		# special markers in comments:
 		s/^\.?\s*\\"\s*INTERNAL-LINK.*$/${replacement_token}#INTERNAL-LINK#/s  or
+		s/^\.?\s*\\"\s*LINK-TO\s+([^\s#][^#\r\n]*)\s*$/${replacement_token}#LINK-TO#$1#/s  or
 
 		s/^\.\\".*$//  # remove line comment commands
 		or
