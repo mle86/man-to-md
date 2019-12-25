@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use utf8;
 use Getopt::Long qw(:config no_getopt_compat bundling);
 use File::Basename qw(dirname basename);
 chdir dirname($0);
@@ -273,7 +274,7 @@ sub strip_highlighting {
 	s/\\\(S3/³/g;
 
 	# unicode characters:
-	s/\\\[u0*?([0-9a-fA-F]+)\]/ chr hex $1 /ge  && utf8::encode($_);
+	s/\\\[u0*?([0-9a-fA-F]+)\]/ chr hex $1 /ge;
 
 	s/\\[ ~]/&nbsp;/g;  # non-breakable space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
@@ -292,6 +293,8 @@ sub strip_highlighting {
 	# unknown \*X or \*(XX string usages not previously defined with .ds:
 	s/\\\*[^\s\(]//g;
 	s/\\\*\([^\s]{2}//g;
+
+	utf8::encode($_);
 }
 
 sub strip_html {
