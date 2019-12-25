@@ -22,6 +22,8 @@ TESTPROG_SHORTNAME="TESTPROG"
 TESTPROG_VERSION="0.9.2"
 TESTPROG_DATE="April 2017"
 
+re_anchor="(?m:^<a name=\"[^\"]+\"><\\/a>\\n{1,2}+)"
+
 # define [-t] varname < input
 #  Assigns its stdin input to a variable.
 #  Similar to the `read' builtin, but it does not care about newlines.
@@ -56,7 +58,7 @@ define () {
 #  Extracts one "# SECTION" from the input,
 #  without the section title.
 get_section () {
-	grep -m1 -zoiP "(?s)(?<=\\n# $1\\n\\n).+?(?=\\n#|\Z)" \
+	grep -m1 -zoiP "(?s)(?<=\\n# $1\\n\\n).+?(?=$re_anchor|\\n#|\Z)" \
 		|| fail "Section '$1' not found!"
 }
 

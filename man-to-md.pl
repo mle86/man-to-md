@@ -501,16 +501,25 @@ sub qtok {
 sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 
 
+sub section_slug ($) {
+	local $_ = lc shift;
+	s/[^\w\d_ ]//g;
+	s/ +/-/g;
+	$_
+}
+
+sub section_anchor ($) { "<a name=\"" . section_slug($_[0]) . "\"></a>" }
+
 sub print_section_title    ($) {
 	my $title = strip_html($_[0]);
-	my $output = sprintf "\n%s%s\n\n", $section_prefix, $title;
+	my $output = sprintf "\n%s\n\n%s%s\n\n", section_anchor($title), $section_prefix, $title;
 	utf8::encode($output);
 	print $output
 }
 
 sub print_subsection_title ($) {
 	my $title = strip_html($_[0]);
-	my $output = sprintf "\n%s%s\n\n", $subsection_prefix, $title;
+	my $output = sprintf "\n%s\n\n%s%s\n\n", section_anchor($title), $subsection_prefix, $title;
 	utf8::encode($output);
 	print $output
 }
