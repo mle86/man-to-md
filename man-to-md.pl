@@ -568,7 +568,7 @@ sub alternating_highlighting {
 
 sub titlecase {
 	local $_ = $_[0];
-	my $re_word = '(\pL[\pL\'_]*)';
+	my $re_word = '(\pL[\pL\d\'_]*)';
 
 	# lowercase stop words, keep casing of known words, else titlecase
 	s!$re_word!$stopwords{lc $1} ? lc($1) : ($words{lc $1} // ucfirst(lc($1)))!ge;
