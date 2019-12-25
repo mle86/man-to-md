@@ -14,5 +14,9 @@ assertContains \
 	"The ENV_VAR Variable" \
 	"The program did not correctly title-case the section headlines!"
 
+assertContains \
+	"$(conv unicode2.roff | grep '^#')" \
+	"Únicòde in Hëadlíneş"
+
 
 success
