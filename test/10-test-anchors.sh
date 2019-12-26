@@ -17,6 +17,7 @@ assertAnchor "$output" 'options'  # .SH "OPTIONS"
 assertAnchor "$output" 'special-characters'  # .SH SPECIAL CHARACTERS
 assertAnchor "$output" 'texty-subsection'  # .SH "Texty Subsection"
 assertAnchor "$output" 'another-subsection'  # .SH Another    Subsection
+assertAnchor "$output" 'section-with-dashed-words-on-and-off'  # .SH SECTION WITH DASHED-WORDS -- ON AND OFF.
 
 
 output="$(conv unicode2.roff)"

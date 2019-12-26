@@ -511,8 +511,8 @@ sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 
 sub section_slug ($) {
 	local $_ = lc shift;
-	s/[^\w\d_ ]//g;
-	s/ +/-/g;
+	s/[^\w\d\-_ ]//g;
+	s/[ \-]+/-/g;
 	$_
 }
 
