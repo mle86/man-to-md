@@ -13,7 +13,7 @@ assertRegex "$output" "/below:${s}“\\[More Details \\((?:\\.{3}|…)\\)\\]\\(#
 	# .\" LINK-TO MORE DETAILS, INCLUDING NUMB3RS AND SPECIAL CHÁRACTÈRß
 	# \(lqMore Details (…)\(rq.
 
-assertRegex "$output" "/to the${s}“\\[Description\\]\\(#description\\)”${s}section/"
+assertRegex "$output" "/to the${s}\\[[\\*_]Description[\\*_] section\\]\\(#description\\)${s}/"
 
 	# .SH MORE DETAILS, INCLUDING NUMB3RS AND SPECIAL CHÁRACTÈRß
 	# Head back to the
