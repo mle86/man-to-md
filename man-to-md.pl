@@ -408,6 +408,11 @@ sub reformat_syntax {
 		return
 	}
 
+	# Usually we can get away with unescaped underscores.
+	# But they'll lead to problems inside words that use \fI font changes.
+	# So escape just these occurrences:
+	s/(?=\S*\\f[IRP12]\S*)_/\\_/g;
+
 	# bold and italics:
 	# (The special cases <b>*</b> and <i>*</i> are handled after the strip_html() call.)
 	s/(?:\\f[B3])+([^\*_]|.{2,}?)(?:\\f[RP1])+/**$1**/g;

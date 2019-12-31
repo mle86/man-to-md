@@ -33,13 +33,16 @@ assertRegex "$output" "/bold-asterisk:\\s+<b>\\\\\\*<\\/b>\\./" \
 	"Conversion of bold asterisk (\\fB*\\fR) failed!"
 assertRegex "$output" "/italic-asterisk:\\s+<i>\\\\\\*<\\/i>\\./" \
 	"Conversion of italic asterisk (\\fI*\\fR) failed!"
-assertRegex "$output" "/bold-underscore:\\s+<b>\\\\_<\\/b>\\./" \
+assertRegex "$output" "/bold-underscore:\\s+(?:<b>\\\\_<\\/b>|\\*\\*\\\\_\\*\\*)\\./" \
 	"Conversion of bold underscore (\\fB_\\fR) failed!"
-assertRegex "$output" "/italic-underscore:\\s+<i>\\\\_<\\/i>\\./" \
+assertRegex "$output" "/italic-underscore:\\s+(?:<i>\\\\_<\\/i>|_\\\\__)\\./" \
 	"Conversion of italic underscore (\\fI_\\fR) failed!"
 
 assertRegex "$output" "/unicode-dot:\\s+(?:&#9679;|&#x25cf;|●)\\./" \
 	"Conversion of Unicode codepoints failed!"
+
+# complicated-varname: VAR_\fIAA\fR_\fIBB\fR.
+assertRegex "$output" "/complicated-varname:\\s+(?:VAR_\\*AA\\*_\\*BB\\*|VAR_<i>AA<\/i>_<i>BB<\/i>|VAR\\\\__AA_\\\\__BB_)/"
 
 
 success
