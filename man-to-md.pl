@@ -435,6 +435,9 @@ sub reformat_syntax {
 	s#^\.B +(\*.*)#'<b>' . join(' ', tokenize($1)) . '</b>'#ge;
 	s#^\.I +(\*.*)#'<i>' . join(' ', tokenize($1)) . '</i>'#ge;
 
+	# remove remaining highlighting:
+	s/(?:^\.[BIR]{1,2} |\\f[BIRP1234])//g;
+
 	if ($section eq 'AUTHOR' || $section eq 'AUTHORS') {
 		# convert e-mail address to link:
 		s/\b($re_email)\b/[$1](mailto:$1)/u;

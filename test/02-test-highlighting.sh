@@ -55,6 +55,9 @@ assertRegex "$output" "\\s${B}bold-4${BIS}italics-4${IBS}bold4${BIS}italics4${I}
 # The \fB\-s\fR \fIN\fR, \fB\fB\-\-skip\fR \fIN\fR option
 # skips the first \fIN\fR input lines.
 assertRegex "$doubleOutput" "/The ${B}-s${B} ${I}N${I}, ${B}--skip${B} ${I}N${I} option/"
+# The program operates in one of several
+# .B output modes\fR.
+assertRegex "$doubleOutput" "/in one of several\\s+${B}output modes(?:${B}\\.|\\.${B})$/m"
 
 
 success
