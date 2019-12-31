@@ -5,6 +5,8 @@
 output="$(conv_sample1 | get_section 'HIGHLIGHTING')"
 output=" $output "  # extra spaces for liberal \s checks instead of (?:\s|$)
 
+doubleOutput="$(conv double-font.roff)"
+
 # regex components:
 B='\*\*'
 I='_'
@@ -48,6 +50,11 @@ assertRegex "$output" "/\\s${B}aaa${SP}+bbb${SP}+ccc${B}\\s+normal\\s+${B}bold\"
 	"Alternating highlighting (.BR, with escaped-space-only bare tokens) did not work as expected!"
 assertRegex "$output" "\\s${B}bold-4${BIS}italics-4${IBS}bold4${BIS}italics4${I}\\s/" \
 	"Alternating highlighting (.BI) did not work as expected!"
+
+
+# The \fB\-s\fR \fIN\fR, \fB\fB\-\-skip\fR \fIN\fR option
+# skips the first \fIN\fR input lines.
+assertRegex "$doubleOutput" "/The ${B}-s${B} ${I}N${I}, ${B}--skip${B} ${I}N${I} option/"
 
 
 success
