@@ -303,8 +303,13 @@ sub strip_highlighting {
 	s/\\[\/,]//g;
 
 	# unknown \*X or \*(XX string usages not previously defined with .ds:
-	s/\\\*[^\s\(]//g;
-	s/\\\*\([^\s]{2}//g;
+	s/^(?:\\[^\*]|[^\\])*?\K\\\*[^\s\(]//g;
+	s/^(?:\\[^\*]|[^\\])*?\K\\\*\([^\s]{2}//g;
+	# These regexes look a bit weird.
+	# They prevent removal of non-string-sequence input like ...**\\\\**...
+	# but excluding there patterns with a negative look-behind
+	# won't work because it's not a fixed-length match.
+	# TODO: Apply similar exclusions to all other backslash-escaped replacements in this sub?
 
 	utf8::encode($_);
 }
