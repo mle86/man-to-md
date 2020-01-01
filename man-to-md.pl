@@ -145,10 +145,10 @@ sub {
 	s/\n *${replacement_token}#BRK#/  \n/g;
 
 	# Internal links:
-	s=${replacement_token}#INTERNAL-LINK#\n?(?:((?!<|&lt;)[^\n]+)\n)?(?:<|&lt;)([^\n]+?)(?:>|&gt;)($re_punctuation*)$=
+	s=${replacement_token}#INTERNAL-LINK#\n? *(?:((?!<|&lt;)[^\n]+)\n)? *(?:<|&lt;)([^\n]+?)(?:>|&gt;)($re_punctuation*)$=
 		'[' . ($1 // $2) . '](' . $2 . ')' . $3
 		=gme;
-	s=${replacement_token}#LINK-TO#([^#]+)#\n?(<|&lt;|“|‘|")?([^\n]+?)((?:>|&gt;|”|’|")?$re_punctuation*)?$=
+	s=${replacement_token}#LINK-TO#([^#]+)#\n? *(<|&lt;|“|‘|")?([^\n]+?)((?:>|&gt;|”|’|")?$re_punctuation*)?$=
 		($2 // '') . '[' . $3 . '](#' . section_slug($1) . ')' . ($4 // '')
 		=gme;
 		# 1 target

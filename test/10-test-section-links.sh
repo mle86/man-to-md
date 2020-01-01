@@ -30,6 +30,18 @@ assertRegex "$trailingPunctuationOutput" "/This is\\s+\\[a link\\]\\([^\\)]+\\)\
 	# .\" LINK-TO DESCRIPTION
 	# a link.
 
+indentedOutput="$(printf '%s\n' "$output" | get_section 'INDENTED SECTION')"
+indentedBoundary="(?: +|$  +)"  # either just a space, or a linebreak followed by at least two spaces.
+assertRegex "$indentedOutput" "/This is an(?: +|[\\r\\n]+  +)\\[indented link\\]\\([^\\)]+\\)\\./" \
+	"Indented section link was not converted correctly!"
+
+	# .SH INDENTED SECTION
+	# .TP
+	# .B Subject 1
+	# This is an
+	# .\" LINK-TO DESCRIPTION
+	# indented link.
+	# This is indented text.
 
 
 success

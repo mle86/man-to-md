@@ -72,6 +72,8 @@ assertRegex "$output" "/with a different\\s+\\[link title\\]\\($intlnk\\)!/msi" 
 	"Internal link with custom title was not converted correctly!"
 assertRegex "$output" "/followed by an angle bracket:\\s+\\[$intlnk\\]\\($intlnk\\)\\s+&lt;other stuff/" \
 	"Internal link (without custom title, but followed by an angle bracket) was not converted correctly!"
+assertRegex "$output" "/in indented text:\\s+\\[link title\\]\\($intlnk\\)!/" \
+	"Internal link in indented text was formatted incorrectly!"
 
 
 # .UM/.UE groff macros:
