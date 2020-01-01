@@ -21,5 +21,15 @@ assertRegex "$output" "/to the${s}\\[[\\*_]Description[\\*_] section\\]\\(#descr
 	# \(lqDescription\(rq
 	# section
 
+trailingPunctuationOutput="$(printf '%s\n' "$output" | get_section 'TRAILING PUNCTUATION')"
+assertRegex "$trailingPunctuationOutput" "/This is\\s+\\[a link\\]\\([^\\)]+\\)\\./" \
+	"Section link with trailing dot was not converted correctly!"
+
+	# .SH TRAILING PUNCTUATION
+	# This is
+	# .\" LINK-TO DESCRIPTION
+	# a link.
+
+
 
 success
