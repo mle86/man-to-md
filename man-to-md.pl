@@ -650,12 +650,18 @@ if (defined $paste_after_section{'HEADLINE'}) {
 	undef $paste_after_section{'HEADLINE'};
 }
 
-if ($version && $verdate) {
-	if ($is_bare_version) {
-		print "Version $version, $verdate\n\n";
-	} else {
-		print "$version, $verdate\n\n";
+if ($version || $verdate) {
+	if ($version) {
+		print "Version "  if $is_bare_version;
+		print $version;
 	}
+	if ($version && $verdate) {
+		print ", ";
+	}
+	if ($verdate) {
+		print $verdate;
+	}
+	print "\n\n";
 }
 
 # skip SYNOPSIS headline
