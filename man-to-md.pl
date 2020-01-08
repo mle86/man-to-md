@@ -513,7 +513,7 @@ sub reformat_html {
 
 # Strips doublequote enclosure from string tokens, if present.
 sub qtok {
-	my @result = map{ m/^"(.+)"$/ ? $1 : $_ } @_;
+	my @result = map{ defined && m/^"(.+)"$/ ? $1 : $_ } @_;
 	wantarray ? @result : $result[0]
 }
 
