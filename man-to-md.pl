@@ -624,7 +624,7 @@ sub read_version {
 
 # eat first line, extract progname, version, and man section
 nextline()
-	and m/^\.TH ($re_token) ($re_token) ($re_token)(?: ($re_token))?/
+	and m/^\.TH ($re_token) ($re_token)(?: ($re_token)(?: ($re_token))?)?/
 	and (($progname, $mansection, $verdate) = (lc(qtok($1)), qtok($2), qtok($3)))
 	and read_version(qtok($4 // ''))
 	or die "could not parse first line";
