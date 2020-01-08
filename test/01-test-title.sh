@@ -31,9 +31,8 @@ assertRegex "$output_nover" "!/Version v?$TESTPROG_VERSION/i" \
 output_short="$(conv short-title.roff | head -n $check_n_lines)"
 [ -z "$output_short" ] && fail "Parsing short-title.roff failed!"
 
-assertRegex "$output_short" "!/Version v?$TESTPROG_VERSION/i" \
-	"The first few lines contain a version string even when the input .TH line had no version!"
-assertRegex "$output_short" "!/Version v?$TESTPROG_VERSION/i" \
+assertRegex "$output_short" "/$TESTPROG_NAME/i"
+assertRegex "$output_short" "!/Version /i" \
 	"The first few lines contain a version string even when the input .TH line had no version!"
 
 
