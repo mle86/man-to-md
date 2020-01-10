@@ -51,6 +51,7 @@ my $replacement_token = "\001kXXfQ6Yd" . int(10000 * rand);
 
 my %paste_after_section  = ( );  # ('section' => ['filename'...], ...)
 my %paste_before_section = ( );
+my $plain_dashes = 1;
 my $code_formatting = 0;
 my $add_comment;
 
@@ -77,6 +78,7 @@ Options:
   --paste-before SECTION:FILENAME   Like -P, but does not add a section title.
   -c, --comment [COMMENT]  Adds an invisible comment as first line.
                            Uses a default comment without its argument.
+  --escaped-dashes  Don't remove the backslash from escaped dashes (\\-).
   -w, --word WORD  Adds a word to the list of words
                    not to be titlecased in chapter titles.
   -f, --formatted-code  Allow formatting in nf/fi code blocks and Synopsis line.
@@ -102,6 +104,7 @@ GetOptions(
 	'paste-before=s@'		=> sub{ add_paste_file('before', split /:/, $_[1]) },
 	'p|paste-section-after=s@'	=> sub{ add_paste_file('after', split(/:/, $_[1]), 1) },
 	'P|paste-section-before=s@'	=> sub{ add_paste_file('before', split(/:/, $_[1]), 1) },
+	'escaped-dashes'        => sub{ $plain_dashes = 0 },
 	'c|comment:s'		=> sub{ $add_comment = (length $_[1])  ? $_[1] : DEFAULT_COMMENT },
 	'f|formatted-code'	=> sub{ $code_formatting = 1 },
 	'w|word=s'		=> sub{ $words{ lc $_[1] } = $_[1] },
@@ -293,7 +296,8 @@ sub strip_highlighting {
 
 	# other special characters, except "\\":
 	s/`/\\`/g;
-	s/\\([\- ])/$1/g;
+	s/\\ / /g;
+	s/\\\-/-/g  if $plain_dashes;
 #	s/\\(.)/$1/g;
 
 	# non-printing zero-width characters, used to mask strings that are not commands:
