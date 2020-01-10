@@ -34,7 +34,7 @@ use constant {
 };
 
 my ($section, $subsection, $prev_section);
-my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock);
+my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock, $in_preblock);
 my ($in_urltitle, $in_mailtitle);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
 my ($lineopt, $line_did_set_options);
@@ -392,7 +392,11 @@ sub reformat_syntax {
 
 	# raw block markers:
 	if (m/^\.(?:nf|co|cm)/) {
-		$in_rawblock = 2;
+		if (has_lineopt('PLAIN')) {
+			$in_preblock = 2;
+		} else {
+			$in_rawblock = 2;
+		}
 		if (m/^\.cm(?:\s+($re_token))?/) {
 			chomp;
 			$_ = qtok($1);
@@ -710,6 +714,18 @@ do {
 			s/\\(.)/$1/g;  # in md raw blocks, backslashes are not special!
 			print "    $_"
 		}
+
+	} elsif ($in_preblock) {
+		if ($in_preblock && m/^\.fi/) {
+			# preformatted block ends
+			$in_preblock = 0;
+			$_ = '';
+		} else {
+			# Add two spaces at EOL to force visible linebreak:
+			s/$/  /;
+		}
+		reformat_syntax;
+		print
 
 	} elsif (section_title) {
 		# new section begins
