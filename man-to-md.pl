@@ -37,6 +37,7 @@ my ($section, $subsection, $prev_section);
 my ($is_synopsis, $in_list, $start_list_item, $is_desclist, $in_rawblock);
 my ($in_urltitle, $in_mailtitle);
 my ($progname, $mansection, $version, $is_bare_version, $verdate, $description);
+my ($lineopt, $line_did_set_options);
 my $headline_prefix = '# ';
 my $section_prefix  = '# ';
 my $subsection_prefix  = '### ';
@@ -185,6 +186,13 @@ sub nextline {
 		$_ = <>;
 		return 0 unless defined;
 
+		# options for following line(s):
+		$line_did_set_options = 0;
+		if (s/^\.?\s*\\"\s*(PLAIN)\s*$//) {
+			$line_did_set_options = 1;
+			add_lineopt($1);
+		}
+
 		# special markers in comments:
 		s/^\.?\s*\\"\s*INTERNAL-LINK.*$/${replacement_token}#INTERNAL-LINK#/s  or
 		s/^\.?\s*\\"\s*LINK-TO\s+([^\s#][^#\r\n]*)\s*$/${replacement_token}#LINK-TO#$1#/s  or
@@ -210,6 +218,10 @@ sub nextline {
 }
 
 sub line_empty { m/^\s*$/ }
+
+sub has_lineopt ($) { defined($lineopt) && $lineopt =~ m/\b$_[0]\b/ }
+sub add_lineopt ($) { $lineopt .= " $_[0] " }
+sub clr_lineopt ()  { undef $lineopt }
 
 sub strip_highlighting {
 	# remove remaining highlighting:
@@ -505,6 +517,8 @@ sub reformat_syntax {
 	} elsif (defined $in_urltitle || defined $in_mailtitle) {
 		s/[\r\n]+/ /g
 	}
+
+	clr_lineopt()  unless $line_did_set_options;
 }
 
 sub reformat_html {
