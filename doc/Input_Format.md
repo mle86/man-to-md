@@ -231,7 +231,36 @@ This will be converted to
 which will render as
 “For more information, refer to [RFC 8140](https://tools.ietf.org/html/rfc8140).”.
 
-Special case: internal links.
+#### Special case: link to another section.
+
+If you want to your Markdown output file
+to include a link to another section in the same document,
+use this syntax:
+
+```roff
+.TH OPTIONS
+...
+For more info, see the
+.\" LINK-TO MORE INFO
+More Info
+section.
+...
+.TH MORE INFO
+...
+```
+
+The comment line with <code>LINK-TO <i>target-section-name</i></code>
+will turn the next line
+into a relative link.
+
+There's no such thing as relative links
+in man pages
+which is why
+there's only a comment-based command
+for this feature.
+
+
+#### Special case: internal links.
 
 * If you want your Markdown output file
   to include a relative link to a repository-internal file
