@@ -311,7 +311,7 @@ sub strip_highlighting {
 	# other special characters, except "\\":
 	s/`/\\`/g;
 	s/\\ / /g;
-	s/\\\-/-/g  if $plain_dashes;
+	s/\\-/-/g  if $plain_dashes;
 #	s/\\(.)/$1/g;
 
 	# non-printing zero-width characters, used to mask strings that are not commands:
