@@ -5,7 +5,7 @@ output="$(conv formatted-code.roff)"
 outputFormatted="$(conv formatted-code.roff -f)"
 
 B1='(?:<b>)'
-B0='(?:<\\/b>)'
+B0='(?:<\/b>)'
 
 	# .nf
 	# This is the code block.
