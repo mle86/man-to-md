@@ -731,7 +731,6 @@ do {
 			$_ = '';
 		} else {
 			# Add two spaces at EOL to force visible linebreak:
-			#s/$/  /;
 			add_lineopt('BRK');
 		}
 		reformat_syntax;
