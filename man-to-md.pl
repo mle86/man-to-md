@@ -522,6 +522,7 @@ sub reformat_syntax {
 		s/[\r\n]+/ /g
 	}
 
+	s/$/  /  if has_lineopt('BRK');
 	clr_lineopt()  unless $line_did_set_options;
 }
 
@@ -722,7 +723,8 @@ do {
 			$_ = '';
 		} else {
 			# Add two spaces at EOL to force visible linebreak:
-			s/$/  /;
+			#s/$/  /;
+			add_lineopt('BRK');
 		}
 		reformat_syntax;
 		print
