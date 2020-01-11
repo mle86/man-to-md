@@ -225,7 +225,9 @@ sub clr_lineopt ()  { undef $lineopt }
 
 sub strip_highlighting {
 	# remove remaining highlighting:
-	s/(?:^\.[BIR]{1,2} |\\f[BIRP1234])//g  unless $_[0];
+	s/(?:^\.[BIR] |\\f[BIRP1234])//g  unless $_[0];
+	# get rid of .BR formatting, but correctly unquote its arguments:
+	s/^\.[BIR]{2} *(.+)/alternating_highlighting('R', 'R', $1)/ge  unless $_[0];
 
 	# paragraphs:
 	if (m/^\.br/i) {
