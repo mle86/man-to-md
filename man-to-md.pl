@@ -534,6 +534,7 @@ sub reformat_html {
 	s#\\f4(.+?)\\f[RP1]#<b><i>$1</i></b>#g;
 	s#^\.B +(.+)#<b>$1</b>#g;
 	s#^\.I +(.+)#<i>$1</i>#g;
+	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3, 1)/ge;
 }
 
 # Strips doublequote enclosure from string tokens, if present.
@@ -593,6 +594,7 @@ sub paste_file (%) {
 sub alternating_highlighting {
 	my @hl = @_[0, 1];
 	my @tokens = tokenize($_[2]);
+	my $do_html = $_[3] // 0;
 	my $h = 0;
 
 	# groff concatenates tokens in .B and .I lines with spaces,
@@ -605,9 +607,13 @@ sub alternating_highlighting {
 		if ($highlightkey eq 'R') {
 			$_
 		} elsif ($highlightkey eq 'I') {
-			'_' . $_ . '_'
+			($do_html)
+				? '<i>' . $_ . '</i>'
+				: '_' . $_ . '_'
 		} elsif ($highlightkey eq 'B') {
-			'**' . $_ . '**'
+			($do_html)
+				? '<b>' . $_ . '</b>'
+				: '**' . $_ . '**'
 		}
 	} @tokens
 }
