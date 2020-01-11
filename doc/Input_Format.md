@@ -14,7 +14,7 @@ The program should accept most simple man pages without significant changes.
 The first input line (after comments)
 must be a `.TH` line with this syntax:
 
-<pre><code><b>.TH</b> <i>programShortName</i> <i>manSection</i> <i>date</i> <i>programNameAndVersion</i> [...]</code></pre>
+<pre><code><b>.TH</b> <i>programShortName</i> <i>manSection</i> [<i>date</i> [<i>programNameAndVersion</i> [...]]]</code></pre>
 
 Example:
 `.TH MAN-TO-MD 1 "July 2017" "man-to-md v0.4"`
