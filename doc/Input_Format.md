@@ -4,7 +4,9 @@ This file describes
 the nroff input format
 expected by *man-to-md*.
 
-The program should accept most simple man pages without significant changes.
+The program understands the older **man**(7) language
+and it should accept most simple man pages in that language without significant changes.
+It does not yet understand the newer **mdoc**(7) language.
 
 
 ## Header

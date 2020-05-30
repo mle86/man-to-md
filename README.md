@@ -11,7 +11,7 @@ Version 0.16.0, January 2020
 # Description
 
 This program is a filter
-that reads nroff-formatted man pages
+that reads **man**(7)-formatted nroff man pages
 and outputs Markdown.
 It can be used to automatically convert
 man page files
@@ -70,7 +70,8 @@ to Markdown README files.
 
 # Standards
 
-This program understands many nroff commands and macros commonly used in man page files.
+This program understands many **man**(7) nroff commands and macros
+commonly used in man page files.
 For a complete list, see&nbsp;[doc/Commands.md](doc/Commands.md).
 
 The program emits Markdown syntax
@@ -82,6 +83,7 @@ The program makes several assumptions about the input format
 that are not standardized
 but seem to be fairly commonplace
 in man pages; see&nbsp;[doc/Input_Format.md](doc/Input_Format.md).
+It does not yet understand the newer **mdoc**(7) format.
 
 <a name="license"></a>
 

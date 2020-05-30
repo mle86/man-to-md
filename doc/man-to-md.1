@@ -11,7 +11,7 @@ $
 >\fIoutput.md\fR
 .SH DESCRIPTION
 This program is a filter
-that reads nroff-formatted man pages
+that reads \fBman\fR(7)-formatted nroff man pages
 and outputs Markdown.
 It can be used to automatically convert
 man page files
@@ -74,7 +74,8 @@ Shows program help.
 .BR \-V ", " \-\-version
 Shows version and license information.
 .SH STANDARDS
-This program understands many nroff commands and macros commonly used in man page files.
+This program understands many \fBman\fR(7) nroff commands and macros
+commonly used in man page files.
 For a complete list, see\ 
 .\" INTERNAL-LINK
 <doc/Commands.md>.
@@ -92,6 +93,7 @@ but seem to be fairly commonplace
 in man pages; see\ 
 .\" INTERNAL-LINK
 <doc/Input_Format.md>.
+It does not yet understand the newer \fBmdoc\fR(7) format.
 .SH LICENSE
 GNU GPL v3
 (http://gnu.org/licenses/gpl.html)
