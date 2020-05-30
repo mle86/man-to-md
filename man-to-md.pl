@@ -654,11 +654,14 @@ sub read_version {
 ##############################
 
 # eat first line, extract progname, version, and man section
-nextline()
-	and m/^\.TH ($re_token) ($re_token)(?: ($re_token)(?: ($re_token))?)?/
-	and (($progname, $mansection, $verdate) = (lc(qtok($1)), qtok($2), qtok($3)))
-	and read_version(qtok($4 // ''))
-	or die "could not parse first line";
+nextline()  or die "could not read first line";
+m/^.(?:Dd|Dt)\b/  and die "man page is in mdoc format which is not supported";
+m/^\.TH\b/  or die "first line does not contain '.TH' macro";
+m/^\.TH ($re_token)(?:\s|$)/  or die ".TH line doesn't contain page title";
+m/^\.TH ($re_token) ($re_token)(?: ($re_token)(?: ($re_token))?)?/  or die ".TH line doesn't contain man section";
+
+($progname, $mansection, $verdate) = (lc(qtok($1)), qtok($2), qtok($3));
+read_version(qtok($4 // ''));
 
 # skip NAME headline, extract description
 if (nextline() && section_title() && $section eq 'NAME') {
