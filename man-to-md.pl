@@ -382,7 +382,7 @@ sub postprocess_synopsis {
 
 sub reformat_syntax {
 	# commands to be ignored:
-	if (m/^\.(?:PD|hy|ad|\s|$)/) {
+	if (m/^\.(?:PD|hy|ad|ft|fi|\s|$)/) {
 		$_ = '';
 		return
 	}
@@ -703,13 +703,16 @@ if ($version || $verdate) {
 nextline() if (section_title && $is_synopsis);
 
 
-do {
+do {{
+	PARSELINE:
+
 	if ($in_rawblock) {
-		if (m/^\.(?:fi|cx)/) {
+		if (m/^\.(?:fi|SH|cx)/) {
 			# code block ends
 			$in_rawblock = 0;
 			print "</code></pre>\n"  if $code_formatting;
 			print "\n"  if m/^\.cx/;
+			redo if m/^\.SH/;  # .nf sections can be ended with .SH, but we still need to print the new section title too
 		} elsif ($code_formatting) {
 			# inside code block with limited html formatting
 			if ($in_rawblock == 2) {
@@ -768,7 +771,7 @@ do {
 		print
 	}
 
-} while (nextline(1));
+}} while (nextline(1));
 
 
 # Paste section which haven't matched anything yet:
