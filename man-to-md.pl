@@ -233,7 +233,7 @@ sub strip_highlighting {
 	if (m/^\.br/i) {
 		$_ = "${replacement_token}#BRK#";
 		return
-	} elsif (m/^\.(LP|P|PP)\b/) {
+	} elsif (m/^\.(LP|P|PP|sp)\b/) {
 		$_ = "\n";  # one blank line
 		$in_list = 0;
 	}

@@ -13,6 +13,8 @@ assertRegex "$output" '/line 2  \nline 3/' \
 	"Lines separated by .br did not get converted correctly!"
 assertRegex "$output" '/line 3\n\nline 4/' \
 	"Lines separated by .P did not get converted correctly!"
+assertRegex "$output" '/line 4\n\nline 5/' \
+	"Lines separated by .sp did not get converted correctly!"
 
 
 success
