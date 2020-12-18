@@ -307,6 +307,7 @@ sub strip_highlighting {
 
 	s/\\[ ~]/&nbsp;/g;  # non-breakable space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
+	s/\\%//g;  # hyphenation command
 
 	# other special characters, except "\\":
 	s/`/\\`/g;
