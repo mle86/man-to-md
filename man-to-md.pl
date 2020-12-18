@@ -445,8 +445,8 @@ sub reformat_syntax {
 	# groff concatenates tokens in .B and .I lines with spaces.
 	# We still have to tokenize and re-join the line
 	# to get rid of the token doublequote enclosures.
-	s/^\.B +([^\*].*)/'**' . join(' ', tokenize($1)) . '**'/ge;
-	s/^\.I +([^\*].*)/'_' . join(' ', tokenize($1)) . '_'/ge;
+	s/^\.B +([^\*].*)/'**' . trim(join(' ', tokenize($1))) . '**'/ge;
+	s/^\.I +([^\*].*)/'_' . trim(join(' ', tokenize($1))) . '_'/ge;
 
 	s/^\.([BIR])([BIR]) *(.+)/alternating_highlighting($1, $2, $3)/ge;
 
@@ -548,6 +548,27 @@ sub qtok {
 # Tokens are things enclosed in unescaped doublequotes or any strings without spaces.
 sub tokenize { qtok($_[0] =~ m/$re_token/g) }
 
+# Removes spaces from the start and end of the input string and returns the modified string.
+# In list context, it returns (trimResult, removedPrefix, removedSuffix).
+sub trim ($) {
+	my ($str, $removedPrefix, $removedSuffix) = ($_[0], '', '');
+	$str =~ s/^( +)//  and $removedPrefix = $1;
+	$str =~ s/( +)$//  and $removedSuffix = $1;
+	wantarray
+		? ($str, $removedPrefix, $removedSuffix)
+		: $str
+}
+
+# wrap_trim INPUT PREFIX [SUFFIX]
+#  Trims the input string and returns
+#  removedWhitespacePrefix + PREFIX + trimResult + SUFFIX + removedWhitespacePrefix.
+#  If the SUFFIX is omitted, the PREFIX is reused instead.
+sub wrap_trim ($$;$) {
+	my ($input, $prefix, $suffix) = @_;
+	my ($trimResult, $removedPrefix, $removedSuffix) = trim($input);
+	$removedPrefix . $prefix . $trimResult . ($suffix // $prefix) . $removedSuffix
+}
+
 
 sub section_slug ($) {
 	local $_ = lc shift;
@@ -605,16 +626,18 @@ sub alternating_highlighting {
 	return join '', map {
 		my $highlightkey = $hl[$h++ % 2];
 
+		my ($str, $wsprefix, $wssuffix) = trim($_);
+
 		if ($highlightkey eq 'R') {
 			$_
 		} elsif ($highlightkey eq 'I') {
 			($do_html)
 				? '<i>' . $_ . '</i>'
-				: '_' . $_ . '_'
+				: wrap_trim($_, '_')
 		} elsif ($highlightkey eq 'B') {
 			($do_html)
 				? '<b>' . $_ . '</b>'
-				: '**' . $_ . '**'
+				: wrap_trim($_, '**')
 		}
 	} @tokens
 }

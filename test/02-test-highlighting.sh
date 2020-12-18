@@ -13,8 +13,8 @@ I='_'
 SP='(?: |&nbsp;|\s)'
 KEEP_B="(?:${SP}+|${B}${SP}+${B})"  # space between two .B areas, we don't care if the space itself it bold as well
 KEEP_I="(?:${SP}+|${I}${SP}+${I})"  # space between two .I areas, we don't care if the space itself is italic as well
-BIS="(?:${SP}+${B}${SP}*${I}${SP}*|${SP}*${B}${SP}+${I}${SP}*|${SP}*${B}${SP}*${I}${SP}+)"  # change from bold to italics, with at least one space
-IBS="(?:${SP}+${I}${SP}*${B}${SP}*|${SP}*${I}${SP}+${B}${SP}*|${SP}*${I}${SP}*${B}${SP}+)"  # change from italics to bold, with at least one space
+BIS="(?:${SP}*${B}${SP}+${I}${SP}*)"  # change from bold to italics, with at least one space in between
+IBS="(?:${SP}*${I}${SP}+${B}${SP}*)"  # change from italics to bold, with at least one space in between
 
 
 # 0 \fBinline bold\fR 0 \fIinline italics\fR 0
