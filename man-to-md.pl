@@ -732,7 +732,7 @@ do {{
 		}
 
 	} elsif ($in_preblock) {
-		if ($in_preblock && m/^\.fi/) {
+		if (m/^\.fi/) {
 			# preformatted block ends
 			$in_preblock = 0;
 			$_ = '';
