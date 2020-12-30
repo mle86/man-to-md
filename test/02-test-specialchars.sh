@@ -12,7 +12,7 @@ errmsg="Conversion of special character sequence failed!"
 LT='(?:<|&lt;)'
 GT='(?:>|&gt;)'
 
-assertRegex "$output" "/lq${LT}“${GT}/"  "$errmsg"
+assertRegex "$output" "/lq${LT}“${GT}${LT}“${GT}/"  "$errmsg"
 assertRegex "$output" "/rq${LT}”${GT}/"  "$errmsg"
 assertRegex "$output" "/dq${LT}\"${GT}/" "$errmsg"
 assertRegex "$output" "/Eu${LT}€${GT}/" "$errmsg"

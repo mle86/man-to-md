@@ -239,8 +239,8 @@ sub strip_highlighting {
 	}
 
 	# known special characters:
-	s/\\\(lq/“/g;
-	s/\\\(rq/”/g;
+	s/\\\*?\(lq/“/g;
+	s/\\\*?\(rq/”/g;
 	s/\\\(oq/‘/g;
 	s/\\\(cq/’/g;
 	s/\\\(ga/`/g;
@@ -285,7 +285,9 @@ sub strip_highlighting {
 
 	s/\\\(co/©/g;
 	s/\\\(rg/®/g;
+	s/\\\*R/®/g;
 	s/\\\(tm/™/g;
+	s/\\\*\(Tm/™/g;
 
 	s/\\\(ff/ﬀ/g;
 	s/\\\(fi/ﬁ/g;
@@ -308,6 +310,7 @@ sub strip_highlighting {
 	s/\\[ ~]/&nbsp;/g;  # non-breakable space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
 	s/\\%//g;  # hyphenation command
+	s/\\\*S//g;  # reset font size
 
 	# other special characters, except "\\":
 	s/`/\\`/g;
