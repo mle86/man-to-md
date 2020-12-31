@@ -374,8 +374,8 @@ sub postprocess_synopsis {
 	local $_ = $_[0];
 
 	# Turn fake block tags into correct markup:
-	s#<synopsis>(.*)</synopsis>#```$1```#s ||
-	s#^<synopsisFormatted>\n(.*)\n</synopsisFormatted>#<pre><code>$1</code></pre>#s;
+	s#<synopsis>\n+(.*?)\n+</synopsis>#```\n$1\n```#s ||
+	s#^<synopsisFormatted>\n+(.*?)\n+</synopsisFormatted>#<pre><code>$1</code></pre>#s;
 
 	# Synopsis blocks are processed line-by-line, then merged by the global output postprocessing function.
 	# This may cause spaces to be inserted at unexpected places. Remove them:
