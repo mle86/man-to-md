@@ -230,7 +230,7 @@ sub strip_highlighting {
 	s/^\.[BIR]{2} *(.+)/alternating_highlighting('R', 'R', $1)/ge  unless $_[0];
 
 	# paragraphs:
-	if (m/^\.br/i) {
+	if (m/^\.(?:br|TQ)/i) {
 		$_ = "${replacement_token}#BRK#";
 		return
 	} elsif (m/^\.(LP|P|PP|sp)\b/) {
