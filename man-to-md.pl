@@ -385,7 +385,7 @@ sub postprocess_synopsis {
 
 sub reformat_syntax {
 	# commands to be ignored:
-	if (m/^\.(?:PD|hy|ad|ft|fi|\s|$)/) {
+	if (m/^\.(?:PD|DT|hy|ad|ft|fi|in|eo|ec|ns|\s|$)/) {
 		$_ = '';
 		return
 	}
