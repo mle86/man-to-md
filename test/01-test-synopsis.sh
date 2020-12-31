@@ -17,7 +17,15 @@ assertContains "$(conv_sample1 -f | get_synopsis)" "<b>testprog</b> [<i>OPTIONS<
 assertRegex "$(conv multicall.roff | get_synopsis)" "/testprog --opt1\ntestprog --opt2 \[OPTIONS\]/" \
 	"Multi-call synopsis does not contain the correct command calls!"
 
-assertRegex "$(conv multicall.roff -f | get_synopsis)" "/<b>testprog</b> --opt1\n<b>testprog<\/b> --opt2 \[<i>OPTIONS<\/i>\]/" \
+assertRegex "$(conv multicall.roff -f | get_synopsis)" "/<b>testprog<\/b> --opt1\n<b>testprog<\/b> --opt2 \[<i>OPTIONS<\/i>\]/" \
 	"Multi-call synopsis does not contain the correct command calls!"
+
+
+assertRegex "$(conv multicall-sy.roff | get_synopsis)" "/testprog \[--opt1\]\s*\ntestprog \[--opt2 argument\] \[OPTIONS\]/" \
+	"Multi-call synopsis (SY/OP/YS) does not contain the correct command calls!"
+
+assertRegex "$(conv multicall-sy.roff -f | get_synopsis)" "/<b>testprog<\/b> \[<b>--opt1<\/b>\]\s*\n<b>testprog<\/b> \[<b>--opt2<\/b> <i>argument<\/i>\] \[<i>OPTIONS<\/i>\]/" \
+	"Multi-call synopsis (SY/OP/YS) does not contain the correct command calls!"
+
 
 success

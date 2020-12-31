@@ -136,6 +136,7 @@ sub {
 	# merge code blocks:
 	s#(?:\n```\n```\n|</code></pre>\n<pre><code>|</code>\n<code>\n?)# #g;
 	s#(?:</code><code>|</pre><pre>)##g;
+	s#(?:\n</(synopsis|synopsisFormatted)>\n<\1>\n\n\n</\1>\n<\1>\n)#\n\n#g;  # blank line in synopsis
 	s#(?:\n</(synopsis|synopsisFormatted)>\n<\1>\n)# #g;
 
 	# ensure correct synposis format:
@@ -233,7 +234,7 @@ sub strip_highlighting {
 	if (m/^\.(?:br|TQ)/i) {
 		$_ = "${replacement_token}#BRK#";
 		return
-	} elsif (m/^\.(LP|P|PP|sp)\b/) {
+	} elsif (m/^\.(LP|P|PP|sp|YS)\b/) {
 		$_ = "\n";  # one blank line
 		$in_list = 0;
 	}
@@ -415,6 +416,19 @@ sub reformat_syntax {
 			$_ = ''
 		}
 		return
+	}
+
+	# synopsis commands:
+	# These don't output markdown, they output roff \fX font escape codes
+	# because they will probably be turned into html directly via reformat_html.
+	if (m/^\.SY(?: +($re_token))?/) {
+		$_ = (($1) ? "\n\\fB".qtok($1)."\\fP" : '') . "\n";
+	} elsif (m/^\.OP(?: +($re_token)(?: +($re_token))?)?/) {
+		$_ =
+			"[" .
+			(($1) ? "\\fB" . qtok($1) . "\\fR" : '') .
+			(($2) ? " \\fI" . qtok($2) . "\\fR" : '') .
+			"]\n";
 	}
 
 	# command invocation in Synopsis section:
