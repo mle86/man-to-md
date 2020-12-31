@@ -32,5 +32,8 @@ assertContains "$output" 'MARKER5' \
 assertRegex "$output" '/Aaa\s+Bbb/' \
 	'Empty line comment commands were not removed correctly!'
 
+assertRegex "$output" '/Bbb\s+Ccc/' \
+	'Empty comment-only lines were not removed correctly!'
+
 
 success

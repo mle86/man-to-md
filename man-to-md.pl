@@ -199,7 +199,7 @@ sub nextline {
 		s/^\.?\s*\\"\s*LINK-TO\s+([^\s#][^#\r\n]*)\s*$/${replacement_token}#LINK-TO#$1#/s  or
 
 		redo if m/^\.\\".*$/;  # skip comment line commands
-		s/^((?:\\[^"]|[^\\])++)\\".*$/$1/;  # remove line comments
+		s/^((?:\\[^"]|[^\\])*+)\\".*$/$1/;  # remove line comments
 
 		if (m/^\.ig/ || $in_comment) {
 			# block comment
