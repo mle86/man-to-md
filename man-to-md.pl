@@ -308,13 +308,14 @@ sub strip_highlighting {
 	s/\\\[u0*?([0-9a-fA-F]+)\]/ chr hex $1 /ge;
 
 	s/\\[ ~]/&nbsp;/g;  # non-breakable space
+	s/\\[\|\^]/ /g;  # non-breakable small space
+	s/\\0/ /g;  # digit-width space
 #	s/\\-/&#8209;/g;  # non-breakable hyphen
 	s/\\%//g;  # hyphenation command
 	s/\\\*S//g;  # reset font size
 
 	# other special characters, except "\\":
 	s/`/\\`/g;
-	s/\\ / /g;
 	s/\\-/-/g  if $plain_dashes;
 #	s/\\(.)/$1/g;
 

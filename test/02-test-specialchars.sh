@@ -28,6 +28,10 @@ assertRegex "$output" "/nbsp3(?: |&nbsp;)eol/" \
 
 assertRegex "$output" "/zwsp(?:​|&#x200b;|&#8203;)eol/" \
 	'Conversion of "\:" to ZWSP failed!'
+assertRegex "$output" "/smallsp(?: |&#x202f;|&#8239;)eol/" \
+	'Conversion of "\|" to NBSP failed!'
+assertRegex "$output" "/digitsp(?: )eol/" \
+	'Conversion of "\0" to regular space failed!'
 
 assertRegex "$output" "/bold-asterisk:\\s+<b>\\\\\\*<\\/b>\\./" \
 	"Conversion of bold asterisk (\\fB*\\fR) failed!"
