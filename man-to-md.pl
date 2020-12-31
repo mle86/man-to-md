@@ -198,8 +198,7 @@ sub nextline {
 		s/^\.?\s*\\"\s*INTERNAL-LINK.*$/${replacement_token}#INTERNAL-LINK#/s  or
 		s/^\.?\s*\\"\s*LINK-TO\s+([^\s#][^#\r\n]*)\s*$/${replacement_token}#LINK-TO#$1#/s  or
 
-		s/^\.\\".*$//  # remove line comment commands
-		or
+		redo if m/^\.\\".*$/;  # skip comment line commands
 		s/^((?:\\[^"]|[^\\])++)\\".*$/$1/;  # remove line comments
 
 		if (m/^\.ig/ || $in_comment) {
