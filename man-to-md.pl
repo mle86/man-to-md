@@ -397,7 +397,7 @@ sub reformat_syntax {
 	}
 
 	# raw block markers:
-	if (m/^\.(?:nf|co|cm)/) {
+	if (m/^\.(?:nf|EX|co|cm)/) {
 		if (has_lineopt('PLAIN')) {
 			$in_preblock = 2;
 		} else {
@@ -731,7 +731,7 @@ nextline() if (section_title && $is_synopsis);
 
 do {{
 	if ($in_rawblock) {
-		if (m/^\.(?:fi|SH|cx)/) {
+		if (m/^\.(?:fi|EE|SH|cx)/) {
 			# code block ends
 			$in_rawblock = 0;
 			print "</code></pre>\n"  if $code_formatting;
@@ -756,7 +756,7 @@ do {{
 		}
 
 	} elsif ($in_preblock) {
-		if (m/^\.fi/) {
+		if (m/^\.(?:fi|EE)/) {
 			# preformatted block ends
 			$in_preblock = 0;
 			$_ = '';
