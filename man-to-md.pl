@@ -562,6 +562,12 @@ sub trim ($) {
 		: $str
 }
 
+# Reduces any non-zero amount of whitespace to a single space.
+# Markdown renders lines with four space indentation as code blocks; that behavior can be avoided with this function.
+sub shrinkws ($) {
+	$_[0] =~ s/\s+/ /gr;
+}
+
 # wrap_trim INPUT PREFIX [SUFFIX]
 #  Trims the input string and returns
 #  removedWhitespacePrefix + PREFIX + trimResult + SUFFIX + removedWhitespacePrefix.
@@ -636,11 +642,11 @@ sub alternating_highlighting {
 		} elsif ($highlightkey eq 'I') {
 			($do_html)
 				? '<i>' . $_ . '</i>'
-				: wrap_trim($_, '_')
+				: shrinkws(wrap_trim($_, '_'))
 		} elsif ($highlightkey eq 'B') {
 			($do_html)
 				? '<b>' . $_ . '</b>'
-				: wrap_trim($_, '**')
+				: shrinkws(wrap_trim($_, '**'))
 		}
 	} @tokens
 }
