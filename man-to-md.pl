@@ -136,7 +136,7 @@ sub {
 	# merge code blocks:
 	s#(?:\n```\n```\n|</code></pre>\n<pre><code>|</code>\n<code>\n?)# #g;
 	s#(?:</code><code>|</pre><pre>)##g;
-	s#(?:\n</synopsis>\n<synopsis>\n|\n</synopsisFormatted>\n<synopsisFormatted>\n)# #g;
+	s#(?:\n</(synopsis|synopsisFormatted)>\n<\1>\n)# #g;
 
 	# ensure correct synposis format:
 	s#(<(synopsis(?:Formatted)?)>.*</\2>)#postprocess_synopsis($1)#se;
@@ -704,8 +704,6 @@ nextline() if (section_title && $is_synopsis);
 
 
 do {{
-	PARSELINE:
-
 	if ($in_rawblock) {
 		if (m/^\.(?:fi|SH|cx)/) {
 			# code block ends
