@@ -31,7 +31,7 @@ assertRegex "$output" "/\\beeee${YY_USAGE}ffff\\b/" \
 # gggg\*(YMhhhh
 # Used correctly after .ds string definition, although that .ds definition contains a line continuation.
 assertRegex "$output" "/\\bgggg${YM_USAGE}hhhh\\b/" \
-	"Two-letter string \\*(YM was replaced, but its multi-line .ds defintion was not read correctly!"
+	"Two-letter string \\*(YM was replaced, but its multi-line .ds definition was not read correctly!"
 
 
 success
