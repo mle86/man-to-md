@@ -91,7 +91,7 @@ comes the main text content.
 * The last sections are usually a subset of these:
     * `EXAMPLES` – usage examples and program output.
     * `EXIT CODES` – exit codes your program might return in various error conditions.
-    * `LICENSE` – your program's license, preferrably with a link to the full license text.
+    * `LICENSE` – your program's license, preferably with a link to the full license text.
     * `AUTHOR` – your name and contact information.
     * `SEE ALSO` – references to other man pages, plus maybe a link to your project's homepage.
 
@@ -140,7 +140,7 @@ Let's mix it up: \fBbold!\fR normal! \fIitalics!\fR normal!
 
 ### Comments
 
-* Line comments (`\"`) may appear anyhwere.
+* Line comments (`\"`) may appear anywhere.
 * The line comment command (`.\"`) is also recognized.
 * Block comments can be started with `.ig` and ended with `..`.
 

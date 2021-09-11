@@ -46,7 +46,7 @@ assertRegex "$output" '/\s\[OtherAuthor\]\(https:\/\/other-author.homepage\/\)\s
 
 assertRegex "$output" '/\sThirdAuthor\s+(?:<|&lt;)\[third@author.tld\]\(mailto:third@author.tld\)(?:>|&gt;)\s/'
 
-	# Text block with a simple name followed by an e-mail addres
+	# Text block with a simple name followed by an e-mail address
 	# (which should be turned into a link).
 	## T0
 	## ThirdAuthor <third@author.tld>
